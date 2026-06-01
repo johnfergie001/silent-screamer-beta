@@ -217,7 +217,8 @@ select{width:100%;padding:10px 13px;border:1px solid var(--bd);border-radius:6px
 <script>
 // ==================== CONFIG ====================
 const CONFIG = {
-  WORKER_URL: "https://white-field-67e6.john-fergie001.workers.dev",
+  AIRTABLE_TOKEN: "patyXWvShYfbkcUbK.fe79adbf1d295591d23ddf04f116bbbb6f1638d7bed7af530b0d5ce55a89f3b9",
+  AIRTABLE_BASE_ID: "appBc4ISDs5qx6hTQ",
   AIRTABLE_TABLE: "Responses",
   PASSCODE: "mara2026"
 };
@@ -667,9 +668,12 @@ async function submitForm() {
   });
 
   try {
-    const r = await fetch(`${CONFIG.WORKER_URL}/responses`, {
+    const r = await fetch(`https://api.airtable.com/v0/${CONFIG.AIRTABLE_BASE_ID}/${encodeURIComponent(CONFIG.AIRTABLE_TABLE)}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Authorization": `Bearer ${CONFIG.AIRTABLE_TOKEN}`,
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({fields})
     });
     if (!r.ok) throw new Error(await r.text());
@@ -708,12 +712,17 @@ async function unlockDash() {
 }
 
 async function fetchAllRecords() {
-  const r = await fetch(`${CONFIG.WORKER_URL}/responses`, {
-    method: "GET"
-  });
-  const data = await r.json();
-  if (!r.ok) throw new Error(JSON.stringify(data));
-  return (data.records || []).map(r => r.fields);
+  let all = [], offset = null;
+  do {
+    const url = new URL(`https://api.airtable.com/v0/${CONFIG.AIRTABLE_BASE_ID}/${encodeURIComponent(CONFIG.AIRTABLE_TABLE)}`);
+    if (offset) url.searchParams.set("offset", offset);
+    const r = await fetch(url, {headers:{"Authorization":`Bearer ${CONFIG.AIRTABLE_TOKEN}`}});
+    const data = await r.json();
+    if (!r.ok) throw new Error(JSON.stringify(data));
+    all = all.concat(data.records || []);
+    offset = data.offset;
+  } while (offset);
+  return all.map(r => r.fields);
 }
 
 function renderDashboard(rows) {
