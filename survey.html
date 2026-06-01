@@ -217,8 +217,7 @@ select{width:100%;padding:10px 13px;border:1px solid var(--bd);border-radius:6px
 <script>
 // ==================== CONFIG ====================
 const CONFIG = {
-  AIRTABLE_TOKEN: "pattAd8qx5KQ6Gvpi.29943a44250c629f10c3394a9ce5b58f2e37b3f01feed7679909dd2790effe58",
-  AIRTABLE_BASE_ID: "appBc4ISDs5qx6hTQ",
+  WORKER_URL: "https://white-field-67e6.john-fergie001.workers.dev",
   AIRTABLE_TABLE: "Responses",
   PASSCODE: "mara2026"
 };
@@ -306,9 +305,6 @@ const SECTIONS = [
       {id:"q20",type:"cond",text:"How did you feel at the end of the book?",
         opts:["Satisfied","Moved","Unsettled","Conflicted","Frustrated","Other"],
         triggers:["Other"],subText:"Please describe."},
-      {id:"q21",type:"cond",text:"Did the ending feel right to you — or did it leave you frustrated?",
-        opts:["It felt right","I wanted something different","I am still not sure"],
-        triggers:["I wanted something different","I am still not sure"],optSub:true,subText:"Say more if you'd like."},
       {id:"q22",type:"scale_text",label:"Did the ending feel earned?",
         text:"Given everything Morag went through — her sacrifices, her silences, her choices — did the conclusion feel like a natural and believable outcome? Or did it feel too convenient, too bleak, or somehow out of step with the journey you'd been on with her?",
         min:"Completely earned and true to her",max:"Felt forced or wrong",subText:"Please share as much or as little as you'd like."},
@@ -373,7 +369,6 @@ let answers = {};
 const TOTAL = SECTIONS.length;
 
 // ==================== FIELD MAP ====================
-// Maps internal answer keys to Airtable field names
 const FIELD_MAP = {
   q_name:"Reader Name", q_email:"Reader Email",
   q1:"Q1 Reading Time", q2:"Q2 Engagement 1Best5Worst",
@@ -400,7 +395,6 @@ const FIELD_MAP = {
   q21:"Q21 Ending Right", q21_text:"Q21 Details",
   q22:"Q22 Ending Earned 1Best", q22_text:"Q22 Details",
   q23:"Q23 Deeper Understanding", q23_text:"Q23 Details",
-  q26:"Q26 Second Book Interest", q26_text:"Q26 Second Book Details", q23_text:"Q23 Details",
   q24:"Q24 Personal Experience", q24_text:"Q24 Details",
   q25:"Q25 Support Resources",
   q26:"Q26 Graphic Book Interest", q26_text:"Q26 Details",
@@ -456,7 +450,6 @@ function renderSection() {
   const btn = document.getElementById("btn-next");
   btn.textContent = currentSection === TOTAL-1 ? "Submit my feedback" : "Next section →";
 
-  // Calculate global question offset
   let offset = 0;
   for (let i = 0; i < currentSection; i++) offset += SECTIONS[i].questions.length;
 
@@ -560,7 +553,6 @@ function renderQuestion(q, num) {
     html += `</div>`;
   }
   else if (q.type === "cry") {
-    // Crying question + emotional response
     html += `<div class="radio-group" id="rg-${q.id}">`;
     q.opts.forEach(opt => {
       const active = answers[q.id] === opt ? " active" : "";
@@ -572,7 +564,6 @@ function renderQuestion(q, num) {
       html += `<div class="sub-q"><span class="muted">${q.subText}</span>
         <textarea placeholder="Where in the story?" onchange="setAnswer('${q.id}_text',this.value)">${answers[q.id+"_text"]||""}</textarea></div>`;
     }
-    // Emotional response always shown
     html += `<div style="margin-top:18px;padding-top:14px;border-top:1px dashed var(--bd)">
       <p class="q-text" style="margin-bottom:8px">Beyond tears — how would you describe your emotional state at the end of the book?</p>
       <select onchange="setAnswer('q6b',this.value)">`;
@@ -589,7 +580,6 @@ function renderQuestion(q, num) {
 }
 
 function renderQuestion_update(qId) {
-  // Re-render only the question block after an interaction
   const sec = SECTIONS[currentSection];
   let offset = 0;
   for (let i=0;i<currentSection;i++) offset += SECTIONS[i].questions.length;
@@ -606,7 +596,6 @@ function setAnswer(key, val) { answers[key] = val; }
 
 function setRadio(qId, val) {
   answers[qId] = val;
-  // Update visual state
   const rg = document.getElementById("rg-"+qId);
   if (rg) {
     rg.querySelectorAll(".radio-opt").forEach(el => {
@@ -624,7 +613,6 @@ function setChip(key, val) {
   const grp = document.getElementById("chips-"+key);
   if (grp) grp.querySelectorAll(".chip").forEach(c =>
     c.classList.toggle("active", c.textContent === val));
-  // Check if we need to show/hide narrative — re-render the whole Q
   const qId = key.split("_")[0];
   renderQuestion_update(qId);
 }
@@ -648,13 +636,11 @@ async function submitForm() {
   btn.disabled = true;
   btn.textContent = "Submitting...";
 
-  // Capture any text_input values not yet stored via blur
   document.querySelectorAll("input[id^='inp_']").forEach(el => {
     const key = el.id.replace("inp_","");
     if (el.value.trim()) answers[key] = el.value.trim();
   });
 
-  // Validate email
   if (!answers["q_email"] || !answers["q_email"].includes("@")) {
     btn.disabled = false;
     btn.textContent = "Submit my feedback";
@@ -662,7 +648,6 @@ async function submitForm() {
     return;
   }
 
-  // Build Airtable fields object
   const fields = {};
   fields[FIELD_MAP._ts] = new Date().toISOString();
   Object.entries(FIELD_MAP).forEach(([key,fieldName]) => {
@@ -672,7 +657,6 @@ async function submitForm() {
       fields[fieldName] = typeof val === "number" ? val : String(val);
     }
   });
-  // Also capture Q3 narratives
   [0,1,2].forEach(pi => {
     const nKey = `q3_narrative_${pi}`;
     if (answers[nKey]) {
@@ -683,19 +667,15 @@ async function submitForm() {
   });
 
   try {
-    const r = await fetch(`https://api.airtable.com/v0/${CONFIG.AIRTABLE_BASE_ID}/${encodeURIComponent(CONFIG.AIRTABLE_TABLE)}`, {
+    const r = await fetch(`${CONFIG.WORKER_URL}/responses`, {
       method: "POST",
-      headers: {
-        "Authorization": `Bearer ${CONFIG.AIRTABLE_TOKEN}`,
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({fields})
     });
     if (!r.ok) throw new Error(await r.text());
     showPage("thankyou");
   } catch(e) {
     console.error("Submit error:", e);
-    // Still show thank you - don't penalise reader for backend issues
     showPage("thankyou");
   }
 }
@@ -720,7 +700,7 @@ async function unlockDash() {
     document.getElementById("dash-lock").classList.add("hidden");
     document.getElementById("dash-content").classList.remove("hidden");
   } catch(e) {
-    err.textContent = "Could not load responses. Check base ID configuration.";
+    err.textContent = "Could not load responses. Check configuration.";
     err.classList.remove("hidden");
   }
   btn.disabled = false;
@@ -728,17 +708,12 @@ async function unlockDash() {
 }
 
 async function fetchAllRecords() {
-  let all = [], offset = null;
-  do {
-    const url = new URL(`https://api.airtable.com/v0/${CONFIG.AIRTABLE_BASE_ID}/${encodeURIComponent(CONFIG.AIRTABLE_TABLE)}`);
-    if (offset) url.searchParams.set("offset", offset);
-    const r = await fetch(url, {headers:{"Authorization":`Bearer ${CONFIG.AIRTABLE_TOKEN}`}});
-    const data = await r.json();
-    if (!r.ok) throw new Error(JSON.stringify(data));
-    all = all.concat(data.records || []);
-    offset = data.offset;
-  } while (offset);
-  return all.map(r => r.fields);
+  const r = await fetch(`${CONFIG.WORKER_URL}/responses`, {
+    method: "GET"
+  });
+  const data = await r.json();
+  if (!r.ok) throw new Error(JSON.stringify(data));
+  return (data.records || []).map(r => r.fields);
 }
 
 function renderDashboard(rows) {
@@ -749,7 +724,6 @@ function renderDashboard(rows) {
   };
   const criedCount = rows.filter(r=>["Yes","Nearly"].includes(r[FIELD_MAP.q6])).length;
 
-  // Stats
   document.getElementById("dash-stats").innerHTML = [
     {label:"Total Responses",val:n},
     {label:"Avg Engagement",val:`${avgOf(FIELD_MAP.q2)}/5`},
@@ -758,7 +732,7 @@ function renderDashboard(rows) {
   ].map(s=>`<div class="dash-stat"><div class="dash-stat-val">${s.val}</div><div class="dash-stat-label">${s.label}</div></div>`).join("");
 
   if (n === 0) {
-    document.getElementById("dash-sections").innerHTML = `<div class="no-data">No responses yet. Share the form with your beta readers to get started.</div>`;
+    document.getElementById("dash-sections").innerHTML = `<div class="no-data">No responses yet.</div>`;
     return;
   }
 
@@ -772,7 +746,6 @@ function renderDashboard(rows) {
     });
   });
   document.getElementById("dash-sections").innerHTML = html;
-  // Attach toggle listeners
   document.querySelectorAll(".text-toggle").forEach(btn => {
     btn.onclick = () => {
       const list = btn.nextElementSibling;
@@ -840,7 +813,6 @@ function renderDashQuestion(q, rows, num) {
     }
   }
 
-  // Text responses (for text questions and sub-text of cond/scale_text)
   const textKeys = [`${q.id}`, `${q.id}_text`];
   textKeys.forEach(tk => {
     const fn = FIELD_MAP[tk];
