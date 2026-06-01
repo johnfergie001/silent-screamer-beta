@@ -27,8 +27,6 @@ h2{font-size:22px;font-weight:700;margin-bottom:16px}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed}
 .err-msg{color:var(--cr);font-size:13px;margin-bottom:12px;text-align:center;display:none}
 .divider{border:none;border-top:1px solid var(--bd);margin:28px 0}
-
-/* Download page */
 .version-badge{display:inline-block;background:var(--cr);color:#fff;font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:5px 14px;border-radius:3px;margin-bottom:20px}
 .download-box{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:24px 28px;margin-bottom:16px}
 .download-box h3{font-size:15px;font-weight:700;margin-bottom:6px}
@@ -39,8 +37,6 @@ h2{font-size:22px;font-weight:700;margin-bottom:16px}
 .survey-prompt{background:var(--lb);border-left:3px solid var(--ac);padding:16px 20px;border-radius:0 6px 6px 0;font-size:13px;line-height:1.7;color:var(--wm);margin-top:24px}
 .survey-prompt a{color:var(--cr);font-weight:600}
 .small-note{font-size:11px;color:var(--mu);text-align:center;margin-top:12px;font-style:italic;line-height:1.6}
-
-/* Logo area */
 .logo-area{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--bd)}
 .book-title{font-size:36px;font-weight:700;letter-spacing:-1px;line-height:1}
 .book-subtitle{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--mu);margin-top:5px}
@@ -111,11 +107,8 @@ h2{font-size:22px;font-weight:700;margin-bottom:16px}
 </div>
 
 <script>
-const AIRTABLE_TOKEN = 'pattAd8qx5KQ6Gvpi.29943a44250c629f10c3394a9ce5b58f2e37b3f01feed7679909dd2790effe58';
-const AIRTABLE_BASE  = 'appBc4ISDs5qx6hTQ';
-const AIRTABLE_TABLE = 'Registrations';
+const WORKER_URL = 'https://white-field-67e6.john-fergie001.workers.dev';
 
-// Google Drive direct download links
 const FILES = {
   A: {
     epub: 'https://drive.google.com/uc?export=download&id=19aAykrZQqnYLkjxKocZ2-yOFlbxfnpo8',
@@ -127,7 +120,6 @@ const FILES = {
   }
 };
 
-// Alternating assignment via timestamp — odd seconds = A, even = B
 function assignVersion() {
   return (Math.floor(Date.now() / 1000) % 2 === 0) ? 'A' : 'B';
 }
@@ -153,27 +145,23 @@ async function handleRegister() {
   const now     = new Date().toISOString();
 
   try {
-    const resp = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}`, {
+    const resp = await fetch(`${WORKER_URL}/registrations`, {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         records: [{
           fields: {
-            Name:              name || '(not provided)',
-            Email:             email,
-            Version:           version,
-            'Registered At':   now
+            Name:            name || '(not provided)',
+            Email:           email,
+            Version:         version,
+            'Registered At': now
           }
         }]
       })
     });
 
-    if (!resp.ok) throw new Error('Airtable error');
+    if (!resp.ok) throw new Error('Worker error');
 
-    // Show download page
     document.getElementById('pg-register').classList.add('hidden');
     document.getElementById('pg-download').classList.remove('hidden');
     document.getElementById('version-label').textContent = `Version ${version}`;
@@ -190,7 +178,6 @@ async function handleRegister() {
   }
 }
 
-// Allow Enter key on email field
 document.getElementById('reg-email').addEventListener('keydown', e => {
   if (e.key === 'Enter') handleRegister();
 });
