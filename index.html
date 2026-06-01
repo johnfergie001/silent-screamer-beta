@@ -107,7 +107,9 @@ h2{font-size:22px;font-weight:700;margin-bottom:16px}
 </div>
 
 <script>
-const WORKER_URL = 'https://white-field-67e6.john-fergie001.workers.dev';
+const AIRTABLE_TOKEN = 'patyXWvShYfbkcUbK.fe79adbf1d295591d23ddf04f116bbbb6f1638d7bed7af530b0d5ce55a89f3b9';
+const AIRTABLE_BASE  = 'appBc4ISDs5qx6hTQ';
+const AIRTABLE_TABLE = 'Registrations';
 
 const FILES = {
   A: {
@@ -145,9 +147,12 @@ async function handleRegister() {
   const now     = new Date().toISOString();
 
   try {
-    const resp = await fetch(`${WORKER_URL}/registrations`, {
+    const resp = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         records: [{
           fields: {
