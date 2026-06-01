@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Silent Screamer — Beta Reader Registration</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Georgia,"Times New Roman",serif;background:#FAF7F2;color:#1C1410;min-height:100vh}
+:root{--cr:#8B2635;--dk:#1C1410;--mu:#9C8B7E;--bd:#DDD5C8;--lb:#F3EDE4;--wm:#5C3D2E;--ac:#C9956A}
+.wrap{max-width:640px;margin:0 auto;padding:32px 20px}
+.center{text-align:center}
+.hidden{display:none!important}
+.eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--cr);margin-bottom:10px}
+h1{font-size:32px;font-weight:700;line-height:1.2;margin-bottom:8px}
+h2{font-size:22px;font-weight:700;margin-bottom:16px}
+.muted{color:var(--mu);font-style:italic;font-size:13px}
+.intro-box{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:28px 32px;margin-bottom:24px;line-height:1.85;font-size:14px}
+.intro-box p{margin-bottom:14px}
+.intro-box p:last-child{margin-bottom:0}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--cr);margin-bottom:7px;font-weight:600}
+.field input{width:100%;padding:12px 14px;border:1px solid var(--bd);border-radius:6px;font-family:inherit;font-size:14px;color:var(--dk);background:#fff;outline:none;transition:border-color .15s}
+.field input:focus{border-color:var(--cr)}
+.btn-primary{width:100%;padding:14px;background:var(--cr);color:#fff;border:none;border-radius:6px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s;margin-top:8px}
+.btn-primary:hover{opacity:.88}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.err-msg{color:var(--cr);font-size:13px;margin-bottom:12px;text-align:center;display:none}
+.divider{border:none;border-top:1px solid var(--bd);margin:28px 0}
+
+/* Download page */
+.version-badge{display:inline-block;background:var(--cr);color:#fff;font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:5px 14px;border-radius:3px;margin-bottom:20px}
+.download-box{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:24px 28px;margin-bottom:16px}
+.download-box h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.download-box p{font-size:13px;color:var(--mu);line-height:1.6;margin-bottom:16px}
+.btn-download{display:block;width:100%;padding:13px;background:var(--cr);color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;text-align:center;transition:opacity .2s;margin-bottom:10px}
+.btn-download:hover{opacity:.88}
+.btn-download.secondary{background:#fff;color:var(--cr);border:1px solid var(--cr)}
+.survey-prompt{background:var(--lb);border-left:3px solid var(--ac);padding:16px 20px;border-radius:0 6px 6px 0;font-size:13px;line-height:1.7;color:var(--wm);margin-top:24px}
+.survey-prompt a{color:var(--cr);font-weight:600}
+.small-note{font-size:11px;color:var(--mu);text-align:center;margin-top:12px;font-style:italic;line-height:1.6}
+
+/* Logo area */
+.logo-area{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--bd)}
+.book-title{font-size:36px;font-weight:700;letter-spacing:-1px;line-height:1}
+.book-subtitle{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--mu);margin-top:5px}
+.author{font-size:14px;color:var(--wm);margin-top:8px;font-style:italic}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: REGISTRATION -->
+<div id="pg-register" class="wrap">
+  <div class="logo-area center">
+    <p class="eyebrow">Beta Reader Programme</p>
+    <h1 class="book-title">Silent Screamer</h1>
+    <p class="book-subtitle">The Watching Window</p>
+    <p class="author">John Fergie</p>
+  </div>
+
+  <div class="intro-box">
+    <p>Thank you for agreeing to be a beta reader. Register below and you'll receive an immediate download link for your copy of the manuscript — plus a link to the feedback survey.</p>
+    <p>Your honest, specific feedback will be much appreciated — but first and foremost, I hope you enjoy it!</p>
+    <p>I recommend using the <strong>ReadEra</strong> app to read it on tablet or phone — get it at <a href="https://www.readera.org/" target="_blank" style="color:var(--cr);">readera.org</a>. For Kindle readers, once the file is downloaded go to <a href="https://www.amazon.co.uk/sendtokindle" target="_blank" style="color:var(--cr);">amazon.co.uk/sendtokindle</a> to send it to yourself.</p>
+    <p style="border-top:1px solid var(--bd);padding-top:12px;font-size:12px;color:var(--mu);font-style:italic">Takes around 2 minutes to register. The survey takes around 20 minutes and can be completed any time after reading.</p>
+  </div>
+
+  <p class="err-msg" id="err-msg">Something went wrong — please try again.</p>
+
+  <div class="field">
+    <label for="reg-name">Your name</label>
+    <input type="text" id="reg-name" placeholder="First name is fine" autocomplete="given-name">
+  </div>
+  <div class="field">
+    <label for="reg-email">Email address</label>
+    <input type="email" id="reg-email" placeholder="you@example.com" autocomplete="email">
+  </div>
+
+  <button class="btn-primary" id="btn-register" onclick="handleRegister()">Get my copy →</button>
+  <p class="small-note">Your email is used only to match your registration with your survey response.<br>It will never be shared or used for marketing.</p>
+</div>
+
+<!-- PAGE 2: DOWNLOAD -->
+<div id="pg-download" class="wrap hidden">
+  <div class="logo-area center">
+    <p class="eyebrow">Beta Reader Programme</p>
+    <h1 class="book-title">Silent Screamer</h1>
+    <p class="book-subtitle">The Watching Window</p>
+    <p class="author">John Fergie</p>
+  </div>
+
+  <div class="center" style="margin-bottom:24px">
+    <span class="version-badge" id="version-label">Version A</span>
+    <h2 style="margin-top:14px">You're all set, <span id="reader-name">reader</span>.</h2>
+    <p class="muted">Download your copy below and read at your own pace.</p>
+  </div>
+
+  <div class="download-box">
+    <h3>Your manuscript</h3>
+    <p>Two formats available — epub works on Kindle, Apple Books, Kobo and most reading apps. PDF works anywhere.</p>
+    <a class="btn-download" id="link-epub" href="#" target="_blank">↓ Download ePub</a>
+    <a class="btn-download secondary" id="link-pdf" href="#" target="_blank">↓ Download PDF</a>
+  </div>
+
+  <div class="survey-prompt">
+    <strong>After you've finished reading</strong>, please complete the feedback survey — it takes around 20 minutes and every answer helps.<br><br>
+    <a href="https://johnfergie001.github.io/silent-screamer-beta/survey.html" target="_blank">Open the survey →</a>
+  </div>
+
+  <p class="small-note" style="margin-top:20px">If you have any problems downloading, reply to John's original message and he'll sort it out.</p>
+</div>
+
+<script>
+const AIRTABLE_TOKEN = 'pattAd8qx5KQ6Gvpi.29943a44250c629f10c3394a9ce5b58f2e37b3f01feed7679909dd2790effe58';
+const AIRTABLE_BASE  = 'appBc4ISDs5qx6hTQ';
+const AIRTABLE_TABLE = 'Registrations';
+
+// Google Drive direct download links
+const FILES = {
+  A: {
+    epub: 'https://drive.google.com/uc?export=download&id=19aAykrZQqnYLkjxKocZ2-yOFlbxfnpo8',
+    pdf:  'https://drive.google.com/uc?export=download&id=1_fmVC16WRTcsg555jgtdwm8YSFE2v1C1'
+  },
+  B: {
+    epub: 'https://drive.google.com/uc?export=download&id=18JMfYEINAWl0D4ZOS6EHhMMczIji2HMF',
+    pdf:  'https://drive.google.com/uc?export=download&id=1E1r46XlwQ4r0tjWSJUzuw3mxwFbSwPfT'
+  }
+};
+
+// Alternating assignment via timestamp — odd seconds = A, even = B
+function assignVersion() {
+  return (Math.floor(Date.now() / 1000) % 2 === 0) ? 'A' : 'B';
+}
+
+async function handleRegister() {
+  const name  = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const err   = document.getElementById('err-msg');
+  const btn   = document.getElementById('btn-register');
+
+  err.style.display = 'none';
+
+  if (!email || !email.includes('@')) {
+    err.textContent = 'Please enter a valid email address.';
+    err.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Registering…';
+
+  const version = assignVersion();
+  const now     = new Date().toISOString();
+
+  try {
+    const resp = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        records: [{
+          fields: {
+            Name:              name || '(not provided)',
+            Email:             email,
+            Version:           version,
+            'Registered At':   now
+          }
+        }]
+      })
+    });
+
+    if (!resp.ok) throw new Error('Airtable error');
+
+    // Show download page
+    document.getElementById('pg-register').classList.add('hidden');
+    document.getElementById('pg-download').classList.remove('hidden');
+    document.getElementById('version-label').textContent = `Version ${version}`;
+    document.getElementById('reader-name').textContent = name ? name.split(' ')[0] : 'reader';
+    document.getElementById('link-epub').href = FILES[version].epub;
+    document.getElementById('link-pdf').href  = FILES[version].pdf;
+    window.scrollTo(0, 0);
+
+  } catch(e) {
+    err.textContent = 'Something went wrong — please try again in a moment.';
+    err.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Get my copy →';
+  }
+}
+
+// Allow Enter key on email field
+document.getElementById('reg-email').addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleRegister();
+});
+</script>
+</body>
+</html>
