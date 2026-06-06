@@ -4,843 +4,1163 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Silent Screamer — Beta Reader Survey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Georgia,"Times New Roman",serif;background:#FAF7F2;color:#1C1410;min-height:100vh}
-:root{--cr:#8B2635;--dk:#1C1410;--mu:#9C8B7E;--bd:#DDD5C8;--lb:#F3EDE4;--wm:#5C3D2E;--ac:#C9956A}
-
-/* Layout */
-.wrap{max-width:640px;margin:0 auto;padding:32px 20px}
-.center{text-align:center}
-.hidden{display:none!important}
-
-/* Typography */
-.eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--cr);margin-bottom:10px}
-h1{font-size:32px;font-weight:700;line-height:1.2;margin-bottom:8px}
-h2{font-size:22px;font-weight:700;margin-bottom:6px}
-h3{font-size:16px;font-weight:700;margin-bottom:12px}
-p{line-height:1.8;font-size:15px}
-.muted{color:var(--mu);font-style:italic;font-size:13px}
-.hint{color:var(--mu);font-style:italic;font-size:12px;margin-top:4px}
-
-/* Cards */
-.card{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:28px 32px;margin-bottom:24px}
-.intro-box{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:28px 32px;margin-bottom:24px;line-height:1.85;font-size:14px}
-.intro-box p{margin-bottom:14px}
-.intro-box p:last-child{margin-bottom:0;padding-top:12px;border-top:1px solid var(--bd);font-size:12px;color:var(--mu);font-style:italic}
-.section-intro{background:var(--lb);border-left:3px solid var(--ac);padding:12px 16px;border-radius:0 4px 4px 0;font-size:13px;line-height:1.7;font-style:italic;color:var(--wm);margin-bottom:20px}
-.scale-note{background:#FFF8F5;border:1px solid #F0DDD5;border-radius:4px;padding:8px 12px;font-size:12px;color:var(--wm);margin-bottom:8px;text-align:center}
-
-/* Progress */
-.progress-wrap{margin-bottom:24px}
-.progress-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--mu);font-style:italic;margin-bottom:5px}
-.progress-bar{height:3px;background:var(--bd);border-radius:2px}
-.progress-fill{height:100%;background:var(--cr);border-radius:2px;transition:width .4s ease}
-
-/* Questions */
-.question{margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--bd)}
-.question:last-child{border-bottom:none}
-.q-num{color:var(--mu);margin-right:7px;font-size:12px}
-.q-text{font-size:14px;line-height:1.75;font-weight:500;margin-bottom:0}
-.q-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--cr);margin-bottom:5px}
-.sub-q{margin-top:10px;padding-left:14px;border-left:3px solid var(--bd)}
-.sub-q .muted{display:block;margin-bottom:4px}
-
-/* Radio options */
-.radio-group{display:flex;flex-direction:column;gap:7px;margin-top:10px}
-.radio-opt{display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:9px 13px;border:1px solid var(--bd);border-radius:6px;background:#fff;transition:all .15s;user-select:none}
-.radio-opt.active{border-color:var(--cr);background:#FFF0F2}
-.radio-dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--bd);background:#fff;flex-shrink:0;margin-top:2px;transition:all .15s}
-.radio-opt.active .radio-dot{border-color:var(--cr);background:var(--cr)}
-.radio-opt span{font-size:13px;line-height:1.5}
-
-/* Scale */
-.scale-wrap{margin:14px 0 8px}
-.scale-btns{display:flex;gap:8px;justify-content:center;margin-bottom:8px}
-.scale-btn{width:44px;height:44px;border-radius:50%;border:2px solid var(--bd);background:#fff;color:var(--dk);font-size:15px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:16px}
-.scale-btn.active{border-color:var(--cr);background:var(--cr);color:#fff}
-.scale-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--mu);font-style:italic}
-.scale-labels span{max-width:44%}
-.scale-labels span:last-child{text-align:right}
-.scale-num-labels{display:flex;gap:8px;justify-content:center;margin-bottom:2px}
-.scale-num-labels span{width:44px;text-align:center;font-size:10px;color:var(--mu)}
-
-/* Three-part */
-.three-part-section{margin-bottom:14px}
-.three-part-label{font-size:11px;font-weight:600;color:var(--wm);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
-.chip-group{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
-.chip{padding:6px 12px;border:1px solid var(--bd);border-radius:4px;background:#fff;color:var(--dk);font-size:12px;cursor:pointer;font-family:inherit;transition:all .15s}
-.chip.active{border-color:var(--cr);background:var(--cr);color:#fff}
-
-/* Three words */
-.three-words{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-.three-words input{flex:1 1 110px;padding:9px 12px;border:1px solid var(--bd);border-radius:6px;font-family:inherit;font-size:13px;color:var(--dk);outline:none;min-width:90px}
-
-/* Textarea */
-textarea{width:100%;min-height:90px;padding:10px 13px;border:1px solid var(--bd);border-radius:6px;font-family:inherit;font-size:13px;color:var(--dk);resize:vertical;background:#fff;outline:none;line-height:1.6;margin-top:8px;transition:border-color .15s}
-textarea:focus{border-color:var(--cr)}
-
-/* Dropdown */
-select{width:100%;padding:10px 13px;border:1px solid var(--bd);border-radius:6px;font-family:inherit;font-size:13px;color:var(--dk);background:#fff;outline:none;margin-top:8px;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239C8B7E' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
-
-/* Buttons */
-.btn-primary{width:100%;padding:14px;background:var(--cr);color:#fff;border:none;border-radius:6px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:.3px;transition:opacity .2s}
-.btn-primary:hover{opacity:.88}
-.btn-primary:disabled{opacity:.5;cursor:not-allowed}
-.btn-secondary{flex:1;padding:13px;background:#fff;border:1px solid var(--bd);border-radius:6px;font-size:13px;cursor:pointer;font-family:inherit;color:var(--dk);transition:border-color .15s}
-.btn-secondary:hover{border-color:var(--mu)}
-.nav-row{display:flex;gap:10px;margin-top:8px}
-.btn-link{background:none;border:none;color:var(--mu);font-size:11px;cursor:pointer;font-family:inherit;text-decoration:underline;letter-spacing:.3px}
-
-/* Thank you */
-.divider{font-size:32px;margin-bottom:18px;color:var(--cr)}
-.helpline{font-size:13px;color:var(--mu);font-style:italic;line-height:1.7;margin-bottom:32px;padding:16px 20px;background:#fff;border:1px solid var(--bd);border-radius:6px;text-align:left}
-
-/* Dashboard */
-.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:28px}
-.dash-stat{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:16px 18px;text-align:center}
-.dash-stat-val{font-size:26px;font-weight:700;color:var(--cr);margin-bottom:3px}
-.dash-stat-label{font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:1px}
-.dash-q{margin-bottom:16px;padding:18px 22px;background:#fff;border:1px solid var(--bd);border-radius:8px}
-.dash-q-num{font-size:10px;color:var(--cr);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px}
-.dash-q-text{font-size:13px;font-weight:600;line-height:1.6;margin-bottom:12px;color:var(--dk)}
-.bar-row{margin-bottom:6px}
-.bar-label-row{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px}
-.bar-label{color:var(--wm);max-width:75%;line-height:1.3}
-.bar-count{font-weight:600;color:var(--dk)}
-.bar-track{height:7px;background:var(--bd);border-radius:4px}
-.bar-fill{height:100%;background:var(--cr);border-radius:4px;transition:width .6s ease}
-.avg-display{font-size:26px;font-weight:700;color:var(--cr);margin-bottom:4px}
-.avg-sub{font-size:12px;color:var(--mu)}
-.text-responses{margin-top:12px}
-.text-toggle{background:none;border:1px solid var(--bd);border-radius:4px;padding:5px 10px;font-size:11px;cursor:pointer;font-family:inherit;color:var(--wm)}
-.text-list{margin-top:10px;display:flex;flex-direction:column;gap:7px}
-.text-item{padding:9px 13px;background:var(--lb);border-radius:4px;font-size:12px;line-height:1.65;border-left:3px solid var(--bd);color:var(--dk)}
-.section-header{margin-bottom:28px}
-.section-header h3{font-size:17px;font-weight:700;padding-bottom:8px;border-bottom:2px solid var(--bd)}
-.no-data{text-align:center;padding:50px 20px;color:var(--mu);font-style:italic}
-.error-msg{color:var(--cr);font-size:13px;margin-bottom:10px;text-align:center}
-.dash-back{background:none;border:1px solid var(--bd);border-radius:4px;padding:7px 13px;font-size:12px;cursor:pointer;font-family:inherit;color:var(--wm)}
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --amber: #c9902a;
+    --amber-light: #e8a83a;
+    --text: #e8e0d0;
+    --text-muted: #8a7f70;
+    --border: #2a2520;
+    --error: #c0392b;
+    --success: #2e7d56;
+    --progress-h: 3px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', serif;
+    font-size: 18px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+  .noise {
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat; background-size: 200px 200px;
+    pointer-events: none; z-index: 0;
+  }
+  .wrapper {
+    position: relative; z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+  /* Progress bar */
+  .progress-bar-wrap {
+    position: fixed; top: 0; left: 0; width: 100%; height: var(--progress-h);
+    background: var(--border); z-index: 100;
+  }
+  .progress-bar-fill {
+    height: 100%; background: var(--amber);
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  /* Masthead */
+  .masthead {
+    text-align: center; margin-bottom: 40px;
+    border-bottom: 1px solid var(--border); padding-bottom: 32px;
+  }
+  .title-silent {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2.4rem, 8vw, 4.5rem); font-weight: 800;
+    letter-spacing: 0.05em; color: var(--text);
+    line-height: 0.9; display: block; text-transform: uppercase;
+  }
+  .title-screamer {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(3rem, 10vw, 5.5rem); font-weight: 800;
+    letter-spacing: 0.04em; color: var(--amber);
+    line-height: 0.9; display: block; text-transform: uppercase;
+  }
+  .survey-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem; font-weight: 600; letter-spacing: 0.25em;
+    color: var(--text-muted); text-transform: uppercase;
+    margin-top: 10px; display: block;
+  }
+  /* Section cards */
+  .section-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 2px; padding: 32px 28px;
+    margin-bottom: 24px; display: none;
+  }
+  .section-card.active { display: block; }
+  .section-card h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--amber);
+    margin-bottom: 6px;
+  }
+  .section-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.5rem; font-weight: 800;
+    letter-spacing: 0.04em; margin-bottom: 20px;
+  }
+  .section-intro {
+    color: var(--text-muted); font-style: italic;
+    margin-bottom: 28px; font-size: 0.95rem;
+    border-left: 2px solid var(--border); padding-left: 14px;
+    line-height: 1.6;
+  }
+  /* Questions */
+  .q { margin-bottom: 28px; }
+  .q-label {
+    display: block; font-family: 'Crimson Pro', serif;
+    font-size: 1rem; font-weight: 400;
+    margin-bottom: 12px; line-height: 1.5;
+  }
+  .q-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem; letter-spacing: 0.2em;
+    color: var(--amber); text-transform: uppercase;
+    display: block; margin-bottom: 4px;
+  }
+  /* Text inputs */
+  .q input[type="text"],
+  .q input[type="email"],
+  .q textarea {
+    width: 100%; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 2px; padding: 10px 14px;
+    color: var(--text); font-family: 'Crimson Pro', serif;
+    font-size: 1rem; outline: none; transition: border-color 0.2s;
+  }
+  .q input[type="text"]:focus,
+  .q input[type="email"]:focus,
+  .q textarea:focus { border-color: var(--amber); }
+  .q input[type="text"]::placeholder,
+  .q input[type="email"]::placeholder,
+  .q textarea::placeholder { color: var(--text-muted); opacity: 0.6; }
+  .q textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+  /* Radio / checkbox */
+  .radio-group, .check-group { display: flex; flex-direction: column; gap: 8px; }
+  .radio-opt, .check-opt {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border: 1px solid var(--border);
+    border-radius: 2px; cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    font-size: 0.95rem;
+  }
+  .radio-opt:hover, .check-opt:hover { border-color: var(--amber); }
+  .radio-opt input, .check-opt input { accent-color: var(--amber); width: 16px; height: 16px; flex-shrink: 0; }
+  .radio-opt.selected, .check-opt.selected {
+    border-color: var(--amber); background: rgba(201,144,42,0.06);
+  }
+  /* Scale */
+  .scale-wrap { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .scale-labels {
+    display: flex; justify-content: space-between;
+    font-size: 0.75rem; color: var(--text-muted);
+    margin-bottom: 8px; font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .scale-btn {
+    width: 44px; height: 44px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--text-muted);
+    font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700;
+    cursor: pointer; border-radius: 2px; transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .scale-btn:hover { border-color: var(--amber); color: var(--text); }
+  .scale-btn.selected { border-color: var(--amber); background: var(--amber); color: #0a0a0a; }
+  /* Three-word fields */
+  .three-word-wrap { display: flex; gap: 10px; }
+  .three-word-wrap input { flex: 1; }
+  /* Divider */
+  .q-divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+  /* Optional badge */
+  .optional {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem; letter-spacing: 0.15em;
+    color: var(--text-muted); text-transform: uppercase;
+    margin-left: 8px;
+  }
+  /* Navigation */
+  .nav-wrap {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-top: 32px; gap: 12px;
+  }
+  .btn-nav {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; padding: 12px 24px;
+    border-radius: 2px; cursor: pointer; transition: all 0.2s;
+    border: 1px solid var(--border); background: transparent; color: var(--text);
+  }
+  .btn-nav:hover { border-color: var(--amber); color: var(--amber); }
+  .btn-nav.primary {
+    background: var(--amber); color: #0a0a0a; border-color: var(--amber);
+  }
+  .btn-nav.primary:hover { background: var(--amber-light); border-color: var(--amber-light); }
+  .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+  .step-indicator {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem; letter-spacing: 0.15em;
+    color: var(--text-muted); text-transform: uppercase;
+  }
+  /* Thank you */
+  #thankyou { display: none; text-align: center; }
+  .ty-icon { font-size: 2.5rem; margin-bottom: 16px; }
+  .ty-heading {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.8rem, 6vw, 3rem); font-weight: 800;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .ty-sub { color: var(--text-muted); margin-bottom: 32px; line-height: 1.7; }
+  .support-note {
+    background: var(--surface2); border-left: 3px solid var(--border);
+    padding: 16px 20px; font-size: 0.85rem; color: var(--text-muted);
+    margin-top: 32px; line-height: 1.6; text-align: left;
+  }
+  .support-note strong { color: var(--text); display: block; margin-bottom: 4px; }
+  /* Landing (section 0) */
+  #landing { display: block; }
+  .landing-text { margin-bottom: 32px; line-height: 1.8; }
+  .landing-text p { margin-bottom: 1em; }
+  /* Dashboard */
+  #dashboard { display: none; }
+  .dash-login { background: var(--surface); border: 1px solid var(--border); padding: 32px 28px; border-radius: 2px; }
+  .dash-login h2 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber); margin-bottom: 20px; }
+  .dash-content { display: none; }
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 28px; }
+  .stat-card { background: var(--surface2); border: 1px solid var(--border); padding: 16px; border-radius: 2px; text-align: center; }
+  .stat-number { font-family: 'Barlow Condensed', sans-serif; font-size: 2rem; font-weight: 800; color: var(--amber); line-height: 1; }
+  .stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; letter-spacing: 0.15em; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
+  .dash-section { margin-bottom: 32px; }
+  .dash-section h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  .compare-row { display: flex; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+  .compare-block { flex: 1; min-width: 120px; background: var(--surface2); border: 1px solid var(--border); padding: 14px; border-radius: 2px; }
+  .compare-block .ver-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber); margin-bottom: 6px; }
+  .compare-block .ver-score { font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--text); }
+  .compare-block .ver-n { font-size: 0.8rem; color: var(--text-muted); }
+  .response-list { display: flex; flex-direction: column; gap: 12px; }
+  .response-item { background: var(--surface2); border: 1px solid var(--border); padding: 16px; border-radius: 2px; font-size: 0.9rem; }
+  .response-item .r-meta { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.12em; color: var(--amber); text-transform: uppercase; margin-bottom: 8px; }
+  .response-item .r-field { margin-bottom: 6px; }
+  .response-item .r-field strong { color: var(--text-muted); font-weight: 400; font-size: 0.8rem; font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
+  .dash-filter { margin-bottom: 20px; }
+  .dash-filter select { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; font-family: 'Crimson Pro', serif; font-size: 0.9rem; border-radius: 2px; outline: none; }
+  .dash-filter select:focus { border-color: var(--amber); }
+  .btn-dash-link { background: transparent; border: 1px solid var(--border); color: var(--text-muted); padding: 8px 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; border-radius: 2px; margin-bottom: 20px; transition: all 0.2s; }
+  .btn-dash-link:hover { border-color: var(--amber); color: var(--amber); }
+  footer { text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+  @media (max-width: 480px) {
+    .wrapper { padding: 40px 16px 60px; }
+    .section-card { padding: 24px 16px; }
+    .three-word-wrap { flex-direction: column; }
+    .scale-wrap { gap: 6px; }
+    .scale-btn { width: 38px; height: 38px; }
+  }
 </style>
 </head>
 <body>
+<div class="noise"></div>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill"></div></div>
 
-<!-- ==================== LANDING ==================== -->
-<div id="page-landing" class="wrap">
-  <div class="center" style="margin-bottom:36px">
-    <div class="eyebrow">Beta Reader Survey</div>
-    <h1>Silent Screamer</h1>
-    <p class="muted">John Fergie</p>
-  </div>
-  <div class="intro-box">
-    <p><strong>A note from the author — please read before you begin.</strong></p>
-    <p>Thank you for agreeing to be a beta reader for my book <em>Silent Screamer</em> — I really appreciate it. First and foremost I really hope you enjoy it!</p>
-    <p>As part of the feedback survey, I'm asking for your honest, unvarnished feedback. My goal is simple: the better this book becomes, the more people will read it. The more people read it, the greater the awareness of the subject matter. So if something didn't work for you, please say so. You're not hurting my feelings — you're helping me make it count.</p>
-    <p>That said, unless you're a world-class editor — or happen to know one — I'm not looking for it to be torn apart either 🙂 Honest, thoughtful, and specific is exactly what I need...and thanks again for your time 🙂</p>
-    <p>The survey has 8 short sections and takes around 20 minutes. No question is compulsory — skip anything that doesn't apply to you.</p>
-  </div>
-  <button class="btn-primary" onclick="startSurvey()">Begin the Survey &rarr;</button>
-  <div style="text-align:center;margin-top:32px;padding-top:20px;border-top:1px solid var(--bd)">
-    <button class="btn-link" onclick="showDash()">Author dashboard</button>
-  </div>
-</div>
+<div class="wrapper">
 
-<!-- ==================== SURVEY ==================== -->
-<div id="page-survey" class="wrap hidden">
-  <div class="progress-wrap">
-    <div class="progress-labels">
-      <span id="prog-label">Section 1 of 8</span>
-      <span id="prog-pct">0% complete</span>
-    </div>
-    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
-  </div>
-  <div id="section-header" style="margin-bottom:22px">
-    <div class="eyebrow" id="sec-eyebrow">Section 1</div>
-    <h2 id="sec-title"></h2>
-    <div id="sec-intro" class="section-intro hidden"></div>
-  </div>
-  <div id="questions-container"></div>
-  <div class="nav-row">
-    <button class="btn-secondary hidden" id="btn-back" onclick="prevSection()">← Back</button>
-    <button class="btn-primary" id="btn-next" onclick="nextSection()">Next section →</button>
-  </div>
-  <p class="muted center" style="margin-top:12px">No question is compulsory — skip anything that doesn't apply to you.</p>
-</div>
-
-<!-- ==================== THANK YOU ==================== -->
-<div id="page-thankyou" class="wrap hidden" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:60px 20px">
-  <div style="max-width:480px;width:100%;text-align:center">
-    <div class="divider">❖</div>
-    <h1 style="margin-bottom:14px">Thank you.</h1>
-    <p style="color:var(--wm);margin-bottom:22px;line-height:1.85">Your feedback has been saved. Every response helps make this book what it needs to be, and helps get it into the hands of readers who need it.</p>
-    <div class="helpline">
-      If anything you read stirred difficult feelings, please know that help is available.<br>
-      <strong>National Domestic Abuse Helpline (UK): 0808 2000 247</strong> — free, confidential, 24 hours a day.
-    </div>
-    <button class="btn-link" onclick="showDash()">Author dashboard</button>
-  </div>
-</div>
-
-<!-- ==================== DASHBOARD ==================== -->
-<div id="page-dash" class="wrap hidden">
-
-  <!-- Lock screen -->
-  <div id="dash-lock" style="max-width:380px;margin:80px auto 0">
-    <div class="center" style="margin-bottom:28px">
-      <div class="eyebrow">Author Dashboard</div>
-      <h2 style="margin-bottom:6px">Silent Screamer</h2>
-      <p class="muted">Beta Reader Responses</p>
-    </div>
-    <input type="password" id="dash-code" placeholder="Enter passcode" onkeydown="if(event.key==='Enter')unlockDash()"
-      style="width:100%;padding:11px 14px;border:1px solid var(--bd);border-radius:6px;font-family:inherit;font-size:14px;margin-bottom:10px;outline:none">
-    <div class="error-msg hidden" id="dash-err"></div>
-    <button class="btn-primary" id="dash-unlock-btn" onclick="unlockDash()">View Responses</button>
-    <div style="text-align:center;margin-top:16px">
-      <button class="btn-link" onclick="showPage('landing')">← Back</button>
-    </div>
+  <div class="masthead">
+    <span class="title-silent">Silent</span>
+    <span class="title-screamer">Screamer</span>
+    <span class="survey-label">Beta Reader Survey</span>
   </div>
 
-  <!-- Dashboard content -->
-  <div id="dash-content" class="hidden">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;flex-wrap:wrap;gap:10px">
-      <div>
-        <div class="eyebrow">Author Dashboard</div>
-        <h2>Beta Reader Responses</h2>
+  <!-- LANDING / intro -->
+  <div id="landing">
+    <div class="section-card active" id="section-landing">
+      <div class="landing-text">
+        <p>Thank you for being a beta reader for <em>Silent Screamer</em>. I'm asking for honest, specific feedback — not a line edit and not a professional editorial report. What matters most is your reader experience: where it gripped you, where it slowed, what stayed with you, and whether the ending felt earned.</p>
+        <p>The survey takes around 15–20 minutes. No question is compulsory, but the more specific you can be, the more useful it will be.</p>
       </div>
-      <button class="dash-back" onclick="showPage('landing')">← Back</button>
+      <button class="btn-nav primary" onclick="startSurvey()" style="width:100%;padding:16px;">Begin Survey →</button>
     </div>
-    <div class="dash-grid" id="dash-stats"></div>
-    <div id="dash-sections"></div>
+    <button class="btn-dash-link" onclick="showDashboard()">Author Dashboard</button>
   </div>
-</div>
 
+  <!-- SURVEY SECTIONS -->
+  <div id="survey-wrap" style="display:none;">
+    <!-- SECTION 1: Before We Begin -->
+    <div class="section-card" id="section-1">
+      <h2>Section 1 of 8</h2>
+      <h3>Before We Begin</h3>
+      <p class="section-intro">Help me match your response to your registration and the version you received.</p>
+
+      <div class="q">
+        <span class="q-num">Q1</span>
+        <label class="q-label">Your name</label>
+        <input type="text" id="q1" placeholder="First and last name">
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q2</span>
+        <label class="q-label">Email address used to register</label>
+        <input type="email" id="q2" placeholder="you@example.com">
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q3</span>
+        <label class="q-label">Which version did you read?</label>
+        <div class="radio-group" id="q3">
+          <label class="radio-opt"><input type="radio" name="q3" value="Version B"> Version B</label>
+          <label class="radio-opt"><input type="radio" name="q3" value="Version C"> Version C</label>
+          <label class="radio-opt"><input type="radio" name="q3" value="Not sure"> I'm not sure</label>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q4</span>
+        <label class="q-label">How did you read it?</label>
+        <div class="radio-group" id="q4">
+          <label class="radio-opt"><input type="radio" name="q4" value="PDF phone/tablet"> PDF on phone or tablet</label>
+          <label class="radio-opt"><input type="radio" name="q4" value="PDF computer"> PDF on computer or laptop</label>
+          <label class="radio-opt"><input type="radio" name="q4" value="Printed"> Printed copy</label>
+          <label class="radio-opt"><input type="radio" name="q4" value="Other"> Other</label>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q5</span>
+        <label class="q-label">Did you finish the book?</label>
+        <div class="radio-group" id="q5">
+          <label class="radio-opt"><input type="radio" name="q5" value="Yes"> Yes</label>
+          <label class="radio-opt"><input type="radio" name="q5" value="No"> No</label>
+          <label class="radio-opt"><input type="radio" name="q5" value="Not yet, intend to"> Not yet, but I intend to</label>
+        </div>
+      </div>
+
+      <div class="nav-wrap">
+        <span></span>
+        <span class="step-indicator">1 / 8</span>
+        <button class="btn-nav primary" onclick="goToSection(2)">Next →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 2: Overall Reader Experience -->
+    <div class="section-card" id="section-2">
+      <h2>Section 2 of 8</h2>
+      <h3>Overall Reader Experience</h3>
+
+      <div class="q">
+        <span class="q-num">Q6</span>
+        <label class="q-label">Overall, how strongly did the book hold your attention?</label>
+        <div class="scale-labels"><span>Not at all</span><span>Completely</span></div>
+        <div class="scale-wrap" id="q6">
+          <button class="scale-btn" onclick="selectScale('q6',1)">1</button>
+          <button class="scale-btn" onclick="selectScale('q6',2)">2</button>
+          <button class="scale-btn" onclick="selectScale('q6',3)">3</button>
+          <button class="scale-btn" onclick="selectScale('q6',4)">4</button>
+          <button class="scale-btn" onclick="selectScale('q6',5)">5</button>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q7</span>
+        <label class="q-label">How quickly were you drawn into the story?</label>
+        <div class="radio-group" id="q7">
+          <label class="radio-opt"><input type="radio" name="q7" value="Immediately"> Immediately</label>
+          <label class="radio-opt"><input type="radio" name="q7" value="Within first few chapters"> Within the first few chapters</label>
+          <label class="radio-opt"><input type="radio" name="q7" value="Took a while"> It took a while</label>
+          <label class="radio-opt"><input type="radio" name="q7" value="Struggled"> I struggled to get into it</label>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q8</span>
+        <label class="q-label">Did the book feel commercially readable as domestic noir / psychological suspense?</label>
+        <div class="radio-group" id="q8">
+          <label class="radio-opt"><input type="radio" name="q8" value="Yes strongly"> Yes, strongly</label>
+          <label class="radio-opt"><input type="radio" name="q8" value="Mostly"> Mostly</label>
+          <label class="radio-opt"><input type="radio" name="q8" value="Partly"> Partly</label>
+          <label class="radio-opt"><input type="radio" name="q8" value="Not really"> Not really</label>
+        </div>
+        <textarea id="q8b" placeholder="What made it feel commercial or not commercial to you?" style="margin-top:10px;"></textarea>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q9</span>
+        <label class="q-label">In three words, how would you describe the reading experience?</label>
+        <div class="three-word-wrap">
+          <input type="text" id="q9a" placeholder="Word 1">
+          <input type="text" id="q9b" placeholder="Word 2">
+          <input type="text" id="q9c" placeholder="Word 3">
+        </div>
+      </div>
+
+      <div class="nav-wrap">
+        <button class="btn-nav" onclick="goToSection(1)">← Back</button>
+        <span class="step-indicator">2 / 8</span>
+        <button class="btn-nav primary" onclick="goToSection(3)">Next →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 3: Pacing -->
+    <div class="section-card" id="section-3">
+      <h2>Section 3 of 8</h2>
+      <h3>Pacing</h3>
+
+      <div class="q">
+        <span class="q-num">Q10</span>
+        <label class="q-label">How did the pacing feel overall?</label>
+        <div class="radio-group" id="q10">
+          <label class="radio-opt"><input type="radio" name="q10" value="Too slow"> Too slow</label>
+          <label class="radio-opt"><input type="radio" name="q10" value="About right"> About right</label>
+          <label class="radio-opt"><input type="radio" name="q10" value="Too fast"> Too fast</label>
+          <label class="radio-opt"><input type="radio" name="q10" value="Uneven"> Uneven</label>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q11 <span class="optional">optional</span></span>
+        <label class="q-label">Were there any sections where your attention dipped?</label>
+        <textarea id="q11" placeholder="Please mention any chapter, scene, or rough location if you can."></textarea>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q12 <span class="optional">optional</span></span>
+        <label class="q-label">Were there any sections that felt rushed or underdeveloped?</label>
+        <textarea id="q12" placeholder="Any chapters or scenes that could use more space…"></textarea>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q13</span>
+        <label class="q-label">Did the story build tension effectively?</label>
+        <div class="scale-labels"><span>No</span><span>Very strongly</span></div>
+        <div class="scale-wrap" id="q13">
+          <button class="scale-btn" onclick="selectScale('q13',1)">1</button>
+          <button class="scale-btn" onclick="selectScale('q13',2)">2</button>
+          <button class="scale-btn" onclick="selectScale('q13',3)">3</button>
+          <button class="scale-btn" onclick="selectScale('q13',4)">4</button>
+          <button class="scale-btn" onclick="selectScale('q13',5)">5</button>
+        </div>
+      </div>
+
+      <div class="nav-wrap">
+        <button class="btn-nav" onclick="goToSection(2)">← Back</button>
+        <span class="step-indicator">3 / 8</span>
+        <button class="btn-nav primary" onclick="goToSection(4)">Next →</button>
+      </div>
+    </div>
+    <!-- SECTION 4: Characters -->
+    <div class="section-card" id="section-4">
+      <h2>Section 4 of 8</h2>
+      <h3>Characters &amp; Emotional Pull</h3>
+
+      <div class="q">
+        <span class="q-num">Q14 <span class="optional">optional</span></span>
+        <label class="q-label">Which character stayed with you most, and why?</label>
+        <textarea id="q14" placeholder="Any character — main or secondary…"></textarea>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q15</span>
+        <label class="q-label">How emotionally invested were you in Morag?</label>
+        <div class="scale-labels"><span>Not at all</span><span>Very strongly</span></div>
+        <div class="scale-wrap" id="q15">
+          <button class="scale-btn" onclick="selectScale('q15',1)">1</button>
+          <button class="scale-btn" onclick="selectScale('q15',2)">2</button>
+          <button class="scale-btn" onclick="selectScale('q15',3)">3</button>
+          <button class="scale-btn" onclick="selectScale('q15',4)">4</button>
+          <button class="scale-btn" onclick="selectScale('q15',5)">5</button>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q16</span>
+        <label class="q-label">How emotionally invested were you in the children and family situation?</label>
+        <div class="scale-labels"><span>Not at all</span><span>Very strongly</span></div>
+        <div class="scale-wrap" id="q16">
+          <button class="scale-btn" onclick="selectScale('q16',1)">1</button>
+          <button class="scale-btn" onclick="selectScale('q16',2)">2</button>
+          <button class="scale-btn" onclick="selectScale('q16',3)">3</button>
+          <button class="scale-btn" onclick="selectScale('q16',4)">4</button>
+          <button class="scale-btn" onclick="selectScale('q16',5)">5</button>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q17</span>
+        <label class="q-label">Did Billy feel believable as a public/private threat?</label>
+        <div class="radio-group" id="q17">
+          <label class="radio-opt"><input type="radio" name="q17" value="Yes very believable"> Yes, very believable</label>
+          <label class="radio-opt"><input type="radio" name="q17" value="Mostly"> Mostly</label>
+          <label class="radio-opt"><input type="radio" name="q17" value="Not fully"> Not fully</label>
+          <label class="radio-opt"><input type="radio" name="q17" value="No"> No</label>
+        </div>
+        <textarea id="q17b" placeholder="What made him work or not work for you?" style="margin-top:10px;"></textarea>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q18 <span class="optional">optional</span></span>
+        <label class="q-label">Did any character feel underused, unclear, or less convincing?</label>
+        <textarea id="q18" placeholder="Any character whose role or motivation felt unclear…"></textarea>
+      </div>
+
+      <div class="nav-wrap">
+        <button class="btn-nav" onclick="goToSection(3)">← Back</button>
+        <span class="step-indicator">4 / 8</span>
+        <button class="btn-nav primary" onclick="goToSection(5)">Next →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 5: The Ending — KEY SECTION -->
+    <div class="section-card" id="section-5">
+      <h2>Section 5 of 8</h2>
+      <h3>The Ending</h3>
+      <p class="section-intro">This is the most important section. Please be as specific as you can — your instinctive reactions matter more than considered opinions here.</p>
+
+      <div class="q">
+        <span class="q-num">Q19</span>
+        <label class="q-label">How satisfying was the ending?</label>
+        <div class="scale-labels"><span>Unsatisfying</span><span>Very satisfying</span></div>
+        <div class="scale-wrap" id="q19">
+          <button class="scale-btn" onclick="selectScale('q19',1)">1</button>
+          <button class="scale-btn" onclick="selectScale('q19',2)">2</button>
+          <button class="scale-btn" onclick="selectScale('q19',3)">3</button>
+          <button class="scale-btn" onclick="selectScale('q19',4)">4</button>
+          <button class="scale-btn" onclick="selectScale('q19',5)">5</button>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q20</span>
+        <label class="q-label">How did the ending feel in terms of length and pace?</label>
+        <div class="radio-group" id="q20">
+          <label class="radio-opt"><input type="radio" name="q20" value="Too rushed"> Too rushed</label>
+          <label class="radio-opt"><input type="radio" name="q20" value="Slightly rushed"> Slightly rushed</label>
+          <label class="radio-opt"><input type="radio" name="q20" value="About right"> About right</label>
+          <label class="radio-opt"><input type="radio" name="q20" value="Slightly too extended"> Slightly too extended</label>
+          <label class="radio-opt"><input type="radio" name="q20" value="Too extended"> Too extended</label>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q21</span>
+        <label class="q-label">Did the ending feel emotionally earned?</label>
+        <div class="scale-labels"><span>Not at all</span><span>Completely</span></div>
+        <div class="scale-wrap" id="q21">
+          <button class="scale-btn" onclick="selectScale('q21',1)">1</button>
+          <button class="scale-btn" onclick="selectScale('q21',2)">2</button>
+          <button class="scale-btn" onclick="selectScale('q21',3)">3</button>
+          <button class="scale-btn" onclick="selectScale('q21',4)">4</button>
+          <button class="scale-btn" onclick="selectScale('q21',5)">5</button>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q22</span>
+        <label class="q-label">Did you feel you had enough closure?</label>
+        <div class="radio-group" id="q22">
+          <label class="radio-opt"><input type="radio" name="q22" value="Yes definitely"> Yes, definitely</label>
+          <label class="radio-opt"><input type="radio" name="q22" value="Mostly"> Mostly</label>
+          <label class="radio-opt"><input type="radio" name="q22" value="Not quite"> Not quite</label>
+          <label class="radio-opt"><input type="radio" name="q22" value="No"> No</label>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q23</span>
+        <label class="q-label">Did you want more aftermath or resolution after the final chapter?</label>
+        <div class="radio-group" id="q23">
+          <label class="radio-opt"><input type="radio" name="q23" value="Yes definitely"> Yes, definitely</label>
+          <label class="radio-opt"><input type="radio" name="q23" value="A little more"> A little more</label>
+          <label class="radio-opt"><input type="radio" name="q23" value="No had enough"> No, it had enough</label>
+          <label class="radio-opt"><input type="radio" name="q23" value="No wanted less"> No, I wanted less</label>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q24</span>
+        <label class="q-label">What was your emotional reaction to the ending?</label>
+        <div class="radio-group" id="q24">
+          <label class="radio-opt"><input type="radio" name="q24" value="Moved"> Moved</label>
+          <label class="radio-opt"><input type="radio" name="q24" value="Relieved"> Relieved</label>
+          <label class="radio-opt"><input type="radio" name="q24" value="Hopeful"> Hopeful</label>
+          <label class="radio-opt"><input type="radio" name="q24" value="Sad"> Sad</label>
+          <label class="radio-opt"><input type="radio" name="q24" value="Angry"> Angry</label>
+          <label class="radio-opt"><input type="radio" name="q24" value="Conflicted"> Conflicted</label>
+          <label class="radio-opt"><input type="radio" name="q24" value="Unsatisfied"> Unsatisfied</label>
+          <label class="radio-opt"><input type="radio" name="q24" value="Flat / unaffected"> Flat / unaffected</label>
+          <label class="radio-opt"><input type="radio" name="q24" value="Other"> Other</label>
+        </div>
+        <textarea id="q24b" placeholder="Tell me more about that reaction." style="margin-top:10px;"></textarea>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q25</span>
+        <label class="q-label">Did the final chapter make you more or less likely to recommend the book?</label>
+        <div class="radio-group" id="q25">
+          <label class="radio-opt"><input type="radio" name="q25" value="More likely"> More likely</label>
+          <label class="radio-opt"><input type="radio" name="q25" value="No real difference"> No real difference</label>
+          <label class="radio-opt"><input type="radio" name="q25" value="Less likely"> Less likely</label>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q26 <span class="optional">optional</span></span>
+        <label class="q-label">What, if anything, would you change about the ending?</label>
+        <textarea id="q26" placeholder="Be as specific as you like — any instinct is useful."></textarea>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q27 <span class="optional">optional</span></span>
+        <label class="q-label">In one sentence, what did the ending leave you feeling?</label>
+        <textarea id="q27" placeholder="One sentence — instinctive reaction preferred."></textarea>
+      </div>
+
+      <div class="nav-wrap">
+        <button class="btn-nav" onclick="goToSection(4)">← Back</button>
+        <span class="step-indicator">5 / 8</span>
+        <button class="btn-nav primary" onclick="goToSection(6)">Next →</button>
+      </div>
+    </div>
+    <!-- SECTION 6: Themes -->
+    <div class="section-card" id="section-6">
+      <h2>Section 6 of 8</h2>
+      <h3>Themes &amp; Sensitivity</h3>
+
+      <div class="q">
+        <span class="q-num">Q28</span>
+        <label class="q-label">Did the book handle coercive control and domestic abuse with enough realism?</label>
+        <div class="radio-group" id="q28">
+          <label class="radio-opt"><input type="radio" name="q28" value="Yes"> Yes</label>
+          <label class="radio-opt"><input type="radio" name="q28" value="Mostly"> Mostly</label>
+          <label class="radio-opt"><input type="radio" name="q28" value="Not fully"> Not fully</label>
+          <label class="radio-opt"><input type="radio" name="q28" value="No"> No</label>
+          <label class="radio-opt"><input type="radio" name="q28" value="Prefer not to answer"> Prefer not to answer</label>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q29 <span class="optional">optional</span></span>
+        <label class="q-label">Did anything feel too explicit, too restrained, or wrongly judged?</label>
+        <textarea id="q29" placeholder="Any scene or passage that struck you as misjudged…"></textarea>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q30</span>
+        <label class="q-label">Did the book make the hidden, private nature of abuse clear?</label>
+        <div class="scale-labels"><span>No</span><span>Very clearly</span></div>
+        <div class="scale-wrap" id="q30">
+          <button class="scale-btn" onclick="selectScale('q30',1)">1</button>
+          <button class="scale-btn" onclick="selectScale('q30',2)">2</button>
+          <button class="scale-btn" onclick="selectScale('q30',3)">3</button>
+          <button class="scale-btn" onclick="selectScale('q30',4)">4</button>
+          <button class="scale-btn" onclick="selectScale('q30',5)">5</button>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q31</span>
+        <label class="q-label">Should the author include a short support/resources note at the end of the published book?</label>
+        <div class="radio-group" id="q31">
+          <label class="radio-opt"><input type="radio" name="q31" value="Yes definitely"> Yes, definitely</label>
+          <label class="radio-opt"><input type="radio" name="q31" value="Yes brief and understated"> Yes, but brief and understated</label>
+          <label class="radio-opt"><input type="radio" name="q31" value="No"> No</label>
+          <label class="radio-opt"><input type="radio" name="q31" value="Not sure"> Not sure</label>
+        </div>
+      </div>
+
+      <div class="nav-wrap">
+        <button class="btn-nav" onclick="goToSection(5)">← Back</button>
+        <span class="step-indicator">6 / 8</span>
+        <button class="btn-nav primary" onclick="goToSection(7)">Next →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 7: Market -->
+    <div class="section-card" id="section-7">
+      <h2>Section 7 of 8</h2>
+      <h3>Market &amp; Recommendation</h3>
+
+      <div class="q">
+        <span class="q-num">Q32</span>
+        <label class="q-label">Would you recommend this book?</label>
+        <div class="scale-labels"><span>No</span><span>Absolutely</span></div>
+        <div class="scale-wrap" id="q32">
+          <button class="scale-btn" onclick="selectScale('q32',1)">1</button>
+          <button class="scale-btn" onclick="selectScale('q32',2)">2</button>
+          <button class="scale-btn" onclick="selectScale('q32',3)">3</button>
+          <button class="scale-btn" onclick="selectScale('q32',4)">4</button>
+          <button class="scale-btn" onclick="selectScale('q32',5)">5</button>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q33 <span class="optional">optional</span></span>
+        <label class="q-label">Who do you think the ideal reader is?</label>
+        <textarea id="q33" placeholder="Age, interests, other books they might read…"></textarea>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q34 <span class="optional">optional</span></span>
+        <label class="q-label">What books, authors, films, or TV shows did this remind you of?</label>
+        <textarea id="q34" placeholder="Comparisons help with positioning and marketing…"></textarea>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q35 <span class="optional">optional</span></span>
+        <label class="q-label">How would you describe the book to a friend in one or two sentences?</label>
+        <textarea id="q35" placeholder="Imagine you're recommending it over coffee…"></textarea>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q36 <span class="optional">optional</span></span>
+        <label class="q-label">What is the strongest thing about the book?</label>
+        <textarea id="q36" placeholder="The thing that stayed with you most…"></textarea>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q37 <span class="optional">optional</span></span>
+        <label class="q-label">What is the one thing most likely to stop someone recommending it?</label>
+        <textarea id="q37" placeholder="Be direct — this is the most useful negative feedback you can give."></textarea>
+      </div>
+
+      <div class="nav-wrap">
+        <button class="btn-nav" onclick="goToSection(6)">← Back</button>
+        <span class="step-indicator">7 / 8</span>
+        <button class="btn-nav primary" onclick="goToSection(8)">Next →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 8: Future / Permission -->
+    <div class="section-card" id="section-8">
+      <h2>Section 8 of 8</h2>
+      <h3>Future &amp; Permissions</h3>
+
+      <div class="q">
+        <span class="q-num">Q38</span>
+        <label class="q-label">Would you be interested in a future book connected to this story?</label>
+        <div class="radio-group" id="q38">
+          <label class="radio-opt"><input type="radio" name="q38" value="Yes"> Yes</label>
+          <label class="radio-opt"><input type="radio" name="q38" value="Possibly"> Possibly</label>
+          <label class="radio-opt"><input type="radio" name="q38" value="No"> No</label>
+          <label class="radio-opt"><input type="radio" name="q38" value="Not sure"> Not sure</label>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q39</span>
+        <label class="q-label">Would you like to be a beta reader for the next book?</label>
+        <div class="radio-group" id="q39">
+          <label class="radio-opt"><input type="radio" name="q39" value="Yes"> Yes</label>
+          <label class="radio-opt"><input type="radio" name="q39" value="No"> No</label>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q40</span>
+        <label class="q-label">Would you be happy for John to use short excerpts from your feedback in marketing?</label>
+        <div class="radio-group" id="q40">
+          <label class="radio-opt"><input type="radio" name="q40" value="Yes with first name"> Yes, with my first name</label>
+          <label class="radio-opt"><input type="radio" name="q40" value="Yes anonymously"> Yes, anonymously</label>
+          <label class="radio-opt"><input type="radio" name="q40" value="Please ask me first"> Please ask me first</label>
+          <label class="radio-opt"><input type="radio" name="q40" value="No"> No</label>
+        </div>
+      </div>
+
+      <div class="q">
+        <span class="q-num">Q41 <span class="optional">optional</span></span>
+        <label class="q-label">Anything else you want to tell John?</label>
+        <textarea id="q41" placeholder="Anything at all — this field is entirely free."></textarea>
+      </div>
+
+      <div class="nav-wrap">
+        <button class="btn-nav" onclick="goToSection(7)">← Back</button>
+        <span class="step-indicator">8 / 8</span>
+        <button class="btn-nav primary" id="btn-submit" onclick="submitSurvey()">Submit Feedback →</button>
+      </div>
+    </div>
+
+  </div><!-- /survey-wrap -->
+
+  <!-- THANK YOU -->
+  <div id="thankyou">
+    <div class="section-card active">
+      <div class="ty-icon">✦</div>
+      <h2 class="ty-heading">Thank you.</h2>
+      <p class="ty-sub">Your feedback has been received and will be read carefully. Every response shapes the final published book.<br><br>— John Fergie</p>
+    </div>
+    <div class="support-note">
+      <strong>If this content affected you</strong>
+      The National Domestic Abuse Helpline is available 24 hours, free and confidential: <strong>0808 2000 247</strong>. You can also visit <a href="https://www.nationaldahelpline.org.uk" target="_blank" style="color:var(--amber);">nationaldahelpline.org.uk</a>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard">
+    <div class="dash-login">
+      <h2>Author Dashboard</h2>
+      <div id="dash-login-form">
+        <div class="field" style="margin-bottom:16px;">
+          <label style="font-family:'Barlow Condensed',sans-serif;font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:8px;">Passcode</label>
+          <input type="password" id="dash-passcode" placeholder="Enter passcode" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:2px;padding:10px 14px;color:var(--text);font-family:'Crimson Pro',serif;font-size:1rem;outline:none;">
+        </div>
+        <button class="btn-nav primary" onclick="dashLogin()" style="width:100%;padding:14px;">Access Dashboard →</button>
+        <div id="dash-error" style="color:var(--error);font-size:0.85rem;margin-top:8px;display:none;">Incorrect passcode.</div>
+      </div>
+      <div class="dash-content" id="dash-content">
+        <button class="btn-dash-link" onclick="loadDashboard()" style="margin-bottom:20px;">↻ Refresh Data</button>
+        <div class="dash-filter">
+          <select id="dash-filter-version" onchange="renderDashboard()">
+            <option value="all">All Versions</option>
+            <option value="Version B">Version B only</option>
+            <option value="Version C">Version C only</option>
+          </select>
+        </div>
+        <div id="dash-stats"></div>
+        <div id="dash-responses"></div>
+      </div>
+    </div>
+    <button class="btn-dash-link" onclick="backToSurvey()" style="margin-top:16px;">← Back to Survey</button>
+  </div>
+
+  <footer>
+    <em>Silent Screamer: The Watching Window</em> — Beta Programme 2026<br>
+    Confidential. Not for distribution.
+  </footer>
+
+</div><!-- /wrapper -->
 <script>
-// ==================== CONFIG ====================
-const CONFIG = {
-  AIRTABLE_TOKEN: "patyXWvShYfbkcUbK.fe79adbf1d295591d23ddf04f116bbbb6f1638d7bed7af530b0d5ce55a89f3b9",
-  AIRTABLE_BASE_ID: "appBc4ISDs5qx6hTQ",
-  AIRTABLE_TABLE: "Responses",
-  PASSCODE: "mara2026"
-};
+// --- Config ---
+const AIRTABLE_TOKEN = 'pattAd8qx5KQ6Gvpi';
+const AIRTABLE_BASE = 'appBc4ISDs5qx6hTQ';
+const AIRTABLE_RESPONSES_TABLE = 'tblVa9MCbLvKn7CyE';
+const DASH_PASSCODE = 'mara2026';
+const TOTAL_SECTIONS = 8;
 
-// ==================== SURVEY DATA ====================
-const PACE_OPTS = ["Immediately gripping","Took time to get into","Too slow","Lost me entirely"];
-const SLOW_TRIGGERS = ["Too slow","Lost me entirely"];
-const EMOTION_OPTS = ["","Happy","Elated","Proud","Moved","Hopeful","Relieved","Sad","Unsettled","Angry","Conflicted","Other"];
+let scaleValues = {};
+let allResponses = [];
 
-const SECTIONS = [
-  {
-    title: "Before We Begin",
-    intro: "So we can match your feedback to your copy, please enter your name and email — the same one you used to register.",
-    questions: [
-      {id:"q_name", type:"text_input", inputType:"text",   text:"Your name",          hint:"First name is fine"},
-      {id:"q_email",type:"text_input", inputType:"email",  text:"Your email address", hint:"Please use the same email you registered with", required:true},
-    ]
-  },
-  {
-    title: "Your Reading Experience",
-    questions: [
-      {id:"q1",type:"radio",text:"How long did it take you to read the book?",
-        opts:["Under 3 days","3–7 days","1–2 weeks","More than 2 weeks"]},
-      {id:"q2",type:"scale",text:"Rate your overall engagement across the full novel.",
-        min:"Couldn't put it down",max:"Struggled to continue"},
-      {id:"q3",type:"three_part",text:"Thinking about the book in three parts — the opening, the middle, and the final section — how did each land for you?",
-        parts:["The Opening","The Middle","The Final Section"]},
-      {id:"q4",type:"cond",text:"Were there sections where your reading pace slowed, or where you considered stopping?",
-        opts:["Yes","No"],triggers:["Yes"],subText:"Where, and why?"},
-      {id:"q5",type:"textarea",text:"At what point did you feel fully invested in Morag's story?",
-        hint:'"I didn\'t" is a valid answer.'},
-      {id:"q6",type:"cry",text:"Did you cry, or come close to it, at any point?",
-        opts:["Yes","Nearly","No"],triggers:["Yes","Nearly"],subText:"Where in the story?"},
-    ]
-  },
-  {
-    title: "Character",
-    questions: [
-      {id:"q7",type:"three_words",text:"How would you describe Morag in three words?"},
-      {id:"q8",type:"scale_text",text:"Did you understand why Morag stayed as long as she did?",
-        min:"Completely understood",max:"Couldn't understand it",subText:"Say more if you'd like."},
-      {id:"q9",type:"textarea",text:"Which character besides Morag stayed with you most after finishing? Why?"},
-      {id:"q10",type:"cond",text:"Was there any character whose behaviour felt unclear, inconsistent, or unexplained?",
-        opts:["Yes","No"],triggers:["Yes"],subText:"Who and what?"},
-    ]
-  },
-  {
-    title: "Pace, Structure & Clarity",
-    questions: [
-      {id:"q11",type:"scale_text",text:"Did the story's pace feel right throughout?",
-        min:"Well-judged throughout",max:"Significantly uneven",subText:"Any comments on pace? (optional)"},
-      {id:"q12",type:"cond",text:"Were there chapters or sections that felt too long, repetitive, or slow?",
-        opts:["Yes","No"],triggers:["Yes"],subText:"Which ones, and what felt like the issue?"},
-      {id:"q13",type:"textarea",text:"Were there any moments that surprised you — things you didn't see coming?"},
-      {id:"q14",type:"cond",text:"If there was a surprise, did it land well — or could it have worked better?",
-        opts:["It landed well","It could have been stronger","There were no surprises"],
-        triggers:["It could have been stronger"],subText:"How could it have been stronger?"},
-      {id:"q15",type:"cond",text:"Was there anything in the plot or timeline that confused you or didn't add up?",
-        opts:["Yes","No"],triggers:["Yes"],subText:"Please explain."},
-      {id:"q16",type:"scale",text:"The novel is set in 1970s working-class Britain. Did the period feel convincing and true to the era?",
-        min:"Completely convincing",max:"Often felt wrong for the time"},
-      {id:"q16b",type:"textarea",text:"Are there any specific scenes, details, or elements from the 1970s that you felt were missing — things that would have made the period feel more vivid and real?"},
-    ]
-  },
-  {
-    title: "Tone & Treatment of Violence",
-    intro: "This book was written deliberately to avoid graphic depictions of violence and abuse — the intention was to convey the weight and reality of what Morag experiences without sensationalising it.",
-    questions: [
-      {id:"q17",type:"cond",text:"With that in mind, how did the treatment of violence and abuse feel to you?",
-        opts:["About right — the implied threat was powerful enough","I wanted it to go further — the impact felt diluted","It was still too much for me in places","Other"],
-        triggers:["Other"],subText:"Please tell us more."},
-      {id:"q18",type:"cond",text:"Did the approach — suggesting rather than showing — make the abuse feel more or less real to you as a reader?",
-        opts:["More real","Less real","Made no difference"],
-        triggers:["More real","Less real","Made no difference"],optSub:true,subText:"Say more if you'd like."},
-    ]
-  },
-  {
-    title: "Emotional Impact",
-    questions: [
-      {id:"q21",type:"cond",text:"Did the ending feel right to you — or did it leave you frustrated?",
-        opts:["It felt right","I wanted something different","I am still not sure"],
-        triggers:["It felt right","I wanted something different","I am still not sure"],
-        optSub:true,subText:"Say more if you'd like."},
-      {id:"q19",type:"textarea",text:"What was the moment in the book that affected you most? Describe it briefly."},
-      {id:"q20",type:"cond",text:"How did you feel at the end of the book?",
-        opts:["Satisfied","Moved","Unsettled","Conflicted","Frustrated","Other"],
-        triggers:["Other"],subText:"Please describe."},
-      {id:"q22",type:"scale_text",label:"Did the ending feel earned?",
-        text:"Given everything Morag went through — her sacrifices, her silences, her choices — did the conclusion feel like a natural and believable outcome? Or did it feel too convenient, too bleak, or somehow out of step with the journey you'd been on with her?",
-        min:"Completely earned and true to her",max:"Felt forced or wrong",subText:"Please share as much or as little as you'd like."},
-    ]
-  },
-  {
-    title: "Insight & Purpose",
-    questions: [
-      {id:"q23",type:"cond",text:"Did reading this book give you a deeper understanding of what life can be like for people living with coercive control — even if that world was unfamiliar to you before?",
-        opts:["Yes, significantly","Somewhat","Not really"],
-        triggers:["Yes, significantly","Somewhat","Not really"],optSub:true,subText:"What helped or didn't?"},
-      {id:"q24",type:"cond",optional:true,
-        text:"If you have personal experience of this kind of relationship — or know someone who has — did the book make you feel seen, or that there is hope even in the darkest situations?",
-        hint:"This question is entirely optional.",
-        opts:["Yes","Somewhat","Not really","Prefer not to say"],
-        triggers:["Yes","Somewhat","Not really"],optSub:true,subText:"Share if you'd like."},
-      {id:"q25",type:"radio",text:"At the close of the book, should the author include a short note pointing readers toward support resources for those experiencing coercive control or domestic abuse?",
-        opts:["Yes, absolutely","Yes, but keep it brief and understated","No — it would break the reading experience","I'm not sure"]},
-    ]
-  },
-  {
-    title: "What Comes Next",
-    intro: "The author is considering two possible future books connected to this story. Your honest reaction would be genuinely valuable.",
-    questions: [
-      {id:"q26",type:"cond",text:"A second book is being considered that would take a more unflinching, graphic look at what actually happens behind closed doors in relationships like this — the real, raw reality that Silent Screamer deliberately held back from. This would not be for every reader. Would you be interested?",
-        opts:["Yes, I would read it","Possibly, depending on how it is handled","No — the current approach was right","I would want to know more before deciding"],
-        triggers:["Yes, I would read it","Possibly, depending on how it is handled","No — the current approach was right","I would want to know more before deciding"],
-        optSub:true,subText:"Tell us more."},
-      {id:"q27",type:"cond",text:"A separate continuation of Morag's story is also being considered — following her later work but with a harder edge: think vigilante justice, getting her hands dirty, taking matters into her own hands in ways the system wouldn't sanction. Would that version of Morag interest you?",
-        opts:["Yes, absolutely","Possibly","No — I prefer the Morag I know"],
-        triggers:["Yes, absolutely","Possibly","No — I prefer the Morag I know"],
-        optSub:true,subText:"Tell us more about what you'd want."},
-    ]
-  },
-  {
-    title: "Over to You",
-    questions: [
-      {id:"q28",type:"textarea",text:"In one or two sentences, how would you describe this book to a friend?",
-        hint:"This is more useful than you might think."},
-      {id:"q29",type:"textarea",text:"What other books, authors, or films does this remind you of?"},
-      {id:"q30",type:"textarea",text:"Who do you think is the ideal reader for this book?"},
-      {id:"q31",type:"scale",text:"Would you recommend this book?",
-        min:"Absolutely, without hesitation",max:"No"},
-      {id:"q34",type:"radio",text:"Would you like to be a beta reader for the next book?",
-        opts:["Yes","No"]},
-      {id:"q35",type:"radio",text:"Would you be happy for me to use any of your summary responses for marketing purposes — for example on Amazon or social media?",
-        opts:["Yes","No","Yes, but please check with me first"]},
-      {id:"q36",type:"cond",text:"Would you be willing to leave a review on Amazon UK? You would not need to purchase the book — non-purchase reviews are perfectly valid. As a thank you, once all beta feedback is in and any changes are made, you will receive a final polished copy.",
-        opts:["Yes, I would be happy to","I am not sure yet","No, not for me"],
-        triggers:["Yes, I would be happy to","I am not sure yet"],
-        optSub:true,subText:"Any questions or comments on this?"},
-      {id:"q32",type:"textarea",text:"Are there any questions you'd like to ask the author — or any advice, however general, you'd like to offer?",
-        hint:"Nothing is off limits here."},
-      {id:"q33",type:"textarea",text:"Is there anything else — anything at all — that you think the author should know?"},
-    ]
+// --- Init: read URL params ---
+window.addEventListener('DOMContentLoaded', function() {
+  const params = new URLSearchParams(window.location.search);
+  const version = params.get('version') || localStorage.getItem('silentScreamerVersion') || '';
+  const email = params.get('email') || localStorage.getItem('silentScreamerEmail') || '';
+
+  if (email) {
+    const el = document.getElementById('q2');
+    if (el) el.value = decodeURIComponent(email);
   }
-];
 
-// ==================== STATE ====================
+  if (version && (version === 'B' || version === 'C')) {
+    const radios = document.querySelectorAll('input[name="q3"]');
+    radios.forEach(function(r) {
+      if (r.value === 'Version ' + version) {
+        r.checked = true;
+        r.closest('.radio-opt').classList.add('selected');
+      }
+    });
+  }
+
+  // Style radio opts on change
+  document.querySelectorAll('.radio-group').forEach(function(group) {
+    group.addEventListener('change', function(e) {
+      group.querySelectorAll('.radio-opt').forEach(function(opt) {
+        opt.classList.remove('selected');
+      });
+      if (e.target.closest('.radio-opt')) {
+        e.target.closest('.radio-opt').classList.add('selected');
+      }
+    });
+  });
+});
+
+// --- Navigation ---
 let currentSection = 0;
-let answers = {};
-const TOTAL = SECTIONS.length;
-
-// ==================== FIELD MAP ====================
-const FIELD_MAP = {
-  q_name:"Reader Name", q_email:"Reader Email",
-  q1:"Q1 Reading Time", q2:"Q2 Engagement 1Best5Worst",
-  q3_0:"Q3a Opening", q3_1:"Q3b Middle", q3_2:"Q3c Final Section", q3_narrative:"Q3 Narrative If Slow",
-  q4:"Q4 Pace Slowed", q4_text:"Q4 Details",
-  q5:"Q5 Investment Point",
-  q6:"Q6 Did You Cry", q6_text:"Q6 Cry Details",
-  q6b:"Q6b Emotional Response", q6b_text:"Q6b Emotional Details",
-  q7_0:"Q7a Morag Word 1", q7_1:"Q7b Morag Word 2", q7_2:"Q7c Morag Word 3",
-  q8:"Q8 Understood Why Stayed 1Best", q8_text:"Q8 Details",
-  q9:"Q9 Other Character",
-  q10:"Q10 Character Unclear", q10_text:"Q10 Details",
-  q11:"Q11 Pace Overall 1Best",
-  q12:"Q12 Chapters Too Slow", q12_text:"Q12 Details",
-  q13:"Q13 Surprises",
-  q14:"Q14 Surprise Landing", q14_text:"Q14 Details",
-  q15:"Q15 Plot Confused", q15_text:"Q15 Details",
-  q16:"Q16 Period Authenticity 1Best",
-  q16b:"Q16b Missing Period Details",
-  q17:"Q17 Violence Treatment", q17_text:"Q17 Details",
-  q18:"Q18 Suggest vs Show", q18_text:"Q18 Details",
-  q19:"Q19 Most Affecting Moment",
-  q20:"Q20 End Feeling", q20_text:"Q20 Details",
-  q21:"Q21 Ending Right", q21_text:"Q21 Details",
-  q22:"Q22 Ending Earned 1Best", q22_text:"Q22 Details",
-  q23:"Q23 Deeper Understanding", q23_text:"Q23 Details",
-  q24:"Q24 Personal Experience", q24_text:"Q24 Details",
-  q25:"Q25 Support Resources",
-  q26:"Q26 Graphic Book Interest", q26_text:"Q26 Details",
-  q27:"Q27 Vigilante Morag Interest", q27_text:"Q27 Details",
-  q28:"Q28 Describe to Friend",
-  q29:"Q29 Similar Books Films",
-  q30:"Q30 Ideal Reader",
-  q31:"Q31 Recommend 1Best",
-  q32:"Q32 Questions for Author",
-  q33:"Q33 Anything Else",
-  q34:"Q34 Next Book Beta Reader", q35:"Q35 Marketing Permission", q36:"Q36 Amazon Review", q36_text:"Q36 Amazon Review Details",
-  _ts:"Submitted At"
-};
-
-// ==================== PAGES ====================
-function showPage(name) {
-  ["landing","survey","thankyou","dash"].forEach(p =>
-    document.getElementById("page-"+p).classList.add("hidden"));
-  document.getElementById("page-"+name).classList.remove("hidden");
-}
 
 function startSurvey() {
-  currentSection = 0;
-  answers = {};
-  renderSection();
-  showPage("survey");
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('survey-wrap').style.display = 'block';
+  showSection(1);
 }
 
-function showDash() {
-  showPage("dash");
-  document.getElementById("dash-lock").classList.remove("hidden");
-  document.getElementById("dash-content").classList.add("hidden");
-  document.getElementById("dash-code").value = "";
-  document.getElementById("dash-err").classList.add("hidden");
+function showSection(n) {
+  document.querySelectorAll('.section-card').forEach(function(c) { c.classList.remove('active'); });
+  const el = document.getElementById('section-' + n);
+  if (el) el.classList.add('active');
+  currentSection = n;
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ==================== SURVEY RENDER ====================
-function renderSection() {
-  const sec = SECTIONS[currentSection];
-  const pct = Math.round((currentSection / TOTAL) * 100);
+function goToSection(n) {
+  showSection(n);
+}
 
-  document.getElementById("prog-label").textContent = `Section ${currentSection+1} of ${TOTAL}`;
-  document.getElementById("prog-pct").textContent = `${pct}% complete`;
-  document.getElementById("prog-fill").style.width = pct + "%";
-  document.getElementById("sec-eyebrow").textContent = `Section ${currentSection+1}`;
-  document.getElementById("sec-title").textContent = sec.title;
+function updateProgress() {
+  const pct = (currentSection / TOTAL_SECTIONS) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
 
-  const intro = document.getElementById("sec-intro");
-  if (sec.intro) { intro.textContent = sec.intro; intro.classList.remove("hidden"); }
-  else { intro.classList.add("hidden"); }
-
-  document.getElementById("btn-back").classList.toggle("hidden", currentSection === 0);
-  const btn = document.getElementById("btn-next");
-  btn.textContent = currentSection === TOTAL-1 ? "Submit my feedback" : "Next section →";
-
-  let offset = 0;
-  for (let i = 0; i < currentSection; i++) offset += SECTIONS[i].questions.length;
-
-  const container = document.getElementById("questions-container");
-  container.innerHTML = "";
-  sec.questions.forEach((q, i) => {
-    container.appendChild(renderQuestion(q, offset + i + 1));
+// --- Scale buttons ---
+function selectScale(id, val) {
+  scaleValues[id] = val;
+  const btns = document.querySelectorAll('#' + id + ' .scale-btn');
+  btns.forEach(function(btn, i) {
+    btn.classList.toggle('selected', i + 1 === val);
   });
-  window.scrollTo(0,0);
 }
 
-function renderQuestion(q, num) {
-  const div = document.createElement("div");
-  div.className = "question";
-  div.id = "qblock-" + q.id;
-
-  let html = "";
-  if (q.label) html += `<div class="q-label">${q.label}</div>`;
-  html += `<p class="q-text"><span class="q-num">Q${num}.</span>${q.text}</p>`;
-  if (q.hint) html += `<p class="hint">${q.hint}</p>`;
-
-  if (q.type === "text_input") {
-    const inp = document.createElement("input");
-    inp.type = q.inputType || "text";
-    inp.id = "inp_" + q.id;
-    inp.value = answers[q.id] || "";
-    inp.placeholder = q.hint || "";
-    inp.style.cssText = "width:100%;padding:12px 14px;border:1px solid var(--bd);border-radius:6px;font-family:inherit;font-size:14px;color:var(--dk);background:#fff;outline:none;margin-top:8px;box-sizing:border-box;";
-    inp.addEventListener("focus", function(){ this.style.borderColor="var(--cr)"; });
-    inp.addEventListener("blur",  function(){ this.style.borderColor="var(--bd)"; setAnswer(q.id, this.value.trim()); });
-    div.innerHTML = html;
-    div.appendChild(inp);
-    return div;
-  }
-  if (q.type === "scale" || q.type === "scale_text") {
-    html += `<div class="scale-note">1 is the strongest positive response &nbsp;·&nbsp; 5 is the weakest</div>`;
-    html += `<div class="scale-wrap">`;
-    html += `<div class="scale-btns">`;
-    for (let n=1;n<=5;n++) {
-      const active = answers[q.id] === n ? " active" : "";
-      html += `<button class="scale-btn${active}" onclick="setAnswer('${q.id}',${n});renderQuestion_update('${q.id}')">${n}</button>`;
-    }
-    html += `</div>`;
-    html += `<div class="scale-labels"><span>${q.min}</span><span>${q.max}</span></div>`;
-    html += `</div>`;
-    if (q.type === "scale_text") {
-      html += `<div class="sub-q"><span class="muted">${q.subText} (optional)</span>`;
-      html += `<textarea placeholder="Your thoughts..." onchange="setAnswer('${q.id}_text',this.value)">${answers[q.id+"_text"]||""}</textarea></div>`;
-    }
-  }
-  else if (q.type === "radio") {
-    html += `<div class="radio-group" id="rg-${q.id}">`;
-    q.opts.forEach(opt => {
-      const active = answers[q.id] === opt ? " active" : "";
-      html += `<div class="radio-opt${active}" onclick="setRadio('${q.id}','${opt.replace(/'/g,"\'")}');renderQuestion_update('${q.id}')">
-        <div class="radio-dot"></div><span>${opt}</span></div>`;
-    });
-    html += `</div>`;
-  }
-  else if (q.type === "textarea") {
-    html += `<textarea placeholder="Your response..." onchange="setAnswer('${q.id}',this.value)">${answers[q.id]||""}</textarea>`;
-  }
-  else if (q.type === "cond") {
-    html += `<div class="radio-group" id="rg-${q.id}">`;
-    q.opts.forEach(opt => {
-      const active = answers[q.id] === opt ? " active" : "";
-      html += `<div class="radio-opt${active}" onclick="setRadio('${q.id}','${opt.replace(/'/g,"\'")}');renderQuestion_update('${q.id}')">
-        <div class="radio-dot"></div><span>${opt}</span></div>`;
-    });
-    html += `</div>`;
-    const showSub = q.triggers && q.triggers.includes(answers[q.id]);
-    const optSub = q.optSub;
-    if (showSub) {
-      html += `<div class="sub-q"><span class="muted">${q.subText}${optSub?" (optional)":""}</span>
-        <textarea placeholder="Your response..." onchange="setAnswer('${q.id}_text',this.value)">${answers[q.id+"_text"]||""}</textarea></div>`;
-    }
-  }
-  else if (q.type === "three_part") {
-    ["0","1","2"].forEach((pi, i) => {
-      const key = `${q.id}_${pi}`;
-      const val = answers[key];
-      html += `<div class="three-part-section"><div class="three-part-label">${q.parts[i]}</div><div class="chip-group" id="chips-${key}">`;
-      PACE_OPTS.forEach(opt => {
-        const active = val === opt ? " active" : "";
-        html += `<button class="chip${active}" onclick="setChip('${key}','${opt}');renderQuestion_update('${q.id}')">${opt}</button>`;
-      });
-      html += `</div>`;
-      if (val && SLOW_TRIGGERS.includes(val)) {
-        const narrKey = `${q.id}_narrative_${pi}`;
-        html += `<div class="sub-q"><span class="muted">Tell us more about why this part felt slow or lost you.</span>
-          <textarea placeholder="Your response..." onchange="setAnswer('${narrKey}',this.value)">${answers[narrKey]||""}</textarea></div>`;
-      }
-      html += `</div>`;
-    });
-  }
-  else if (q.type === "three_words") {
-    html += `<div class="three-words">`;
-    [0,1,2].forEach(i => {
-      html += `<input type="text" placeholder="Word ${i+1}" value="${answers[q.id+"_"+i]||""}" onchange="setAnswer('${q.id}_${i}',this.value)">`;
-    });
-    html += `</div>`;
-  }
-  else if (q.type === "cry") {
-    html += `<div class="radio-group" id="rg-${q.id}">`;
-    q.opts.forEach(opt => {
-      const active = answers[q.id] === opt ? " active" : "";
-      html += `<div class="radio-opt${active}" onclick="setRadio('${q.id}','${opt}');renderQuestion_update('${q.id}')">
-        <div class="radio-dot"></div><span>${opt}</span></div>`;
-    });
-    html += `</div>`;
-    if (q.triggers && q.triggers.includes(answers[q.id])) {
-      html += `<div class="sub-q"><span class="muted">${q.subText}</span>
-        <textarea placeholder="Where in the story?" onchange="setAnswer('${q.id}_text',this.value)">${answers[q.id+"_text"]||""}</textarea></div>`;
-    }
-    html += `<div style="margin-top:18px;padding-top:14px;border-top:1px dashed var(--bd)">
-      <p class="q-text" style="margin-bottom:8px">Beyond tears — how would you describe your emotional state at the end of the book?</p>
-      <select onchange="setAnswer('q6b',this.value)">`;
-    EMOTION_OPTS.forEach(e => {
-      html += `<option value="${e}"${answers.q6b===e?" selected":""}>${e||"— Select one —"}</option>`;
-    });
-    html += `</select>
-      <textarea placeholder="Say more if you'd like (optional)..." onchange="setAnswer('q6b_text',this.value)">${answers.q6b_text||""}</textarea>
-    </div>`;
-  }
-
-  div.innerHTML = html;
-  return div;
+// --- Get radio value ---
+function getRadio(name) {
+  const sel = document.querySelector('input[name="' + name + '"]:checked');
+  return sel ? sel.value : '';
 }
 
-function renderQuestion_update(qId) {
-  const sec = SECTIONS[currentSection];
-  let offset = 0;
-  for (let i=0;i<currentSection;i++) offset += SECTIONS[i].questions.length;
-  const qIdx = sec.questions.findIndex(q => q.id === qId);
-  if (qIdx === -1) return;
-  const q = sec.questions[qIdx];
-  const newBlock = renderQuestion(q, offset + qIdx + 1);
-  const old = document.getElementById("qblock-" + qId);
-  if (old) old.replaceWith(newBlock);
-}
-
-// ==================== ANSWER HELPERS ====================
-function setAnswer(key, val) { answers[key] = val; }
-
-function setRadio(qId, val) {
-  answers[qId] = val;
-  const rg = document.getElementById("rg-"+qId);
-  if (rg) {
-    rg.querySelectorAll(".radio-opt").forEach(el => {
-      const isActive = el.querySelector("span").textContent === val;
-      el.classList.toggle("active", isActive);
-      el.querySelector(".radio-dot").style.cssText = isActive
-        ? "border-color:var(--cr);background:var(--cr)"
-        : "border-color:var(--bd);background:#fff";
-    });
-  }
-}
-
-function setChip(key, val) {
-  answers[key] = val;
-  const grp = document.getElementById("chips-"+key);
-  if (grp) grp.querySelectorAll(".chip").forEach(c =>
-    c.classList.toggle("active", c.textContent === val));
-  const qId = key.split("_")[0];
-  renderQuestion_update(qId);
-}
-
-// ==================== NAVIGATION ====================
-function nextSection() {
-  if (currentSection < TOTAL-1) {
-    currentSection++;
-    renderSection();
-  } else {
-    submitForm();
-  }
-}
-function prevSection() {
-  if (currentSection > 0) { currentSection--; renderSection(); }
-}
-
-// ==================== SUBMIT ====================
-async function submitForm() {
-  const btn = document.getElementById("btn-next");
-  btn.disabled = true;
-  btn.textContent = "Submitting...";
-
-  document.querySelectorAll("input[id^='inp_']").forEach(el => {
-    const key = el.id.replace("inp_","");
-    if (el.value.trim()) answers[key] = el.value.trim();
-  });
-
-  if (!answers["q_email"] || !answers["q_email"].includes("@")) {
-    btn.disabled = false;
-    btn.textContent = "Submit my feedback";
-    alert("Please go back to Section 1 and enter your email address so we can match your feedback to your copy.");
-    return;
-  }
-
-  const fields = {};
-  fields[FIELD_MAP._ts] = new Date().toISOString();
-  Object.entries(FIELD_MAP).forEach(([key,fieldName]) => {
-    if (key === "_ts") return;
-    const val = answers[key];
-    if (val !== undefined && val !== "" && val !== null) {
-      fields[fieldName] = typeof val === "number" ? val : String(val);
-    }
-  });
-  [0,1,2].forEach(pi => {
-    const nKey = `q3_narrative_${pi}`;
-    if (answers[nKey]) {
-      const existing = fields["Q3 Narrative If Slow"] || "";
-      const part = ["Opening","Middle","Final Section"][pi];
-      fields["Q3 Narrative If Slow"] = existing ? `${existing} | ${part}: ${answers[nKey]}` : `${part}: ${answers[nKey]}`;
-    }
-  });
-
-  try {
-    const r = await fetch(`https://api.airtable.com/v0/${CONFIG.AIRTABLE_BASE_ID}/${encodeURIComponent(CONFIG.AIRTABLE_TABLE)}`, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${CONFIG.AIRTABLE_TOKEN}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({fields})
-    });
-    if (!r.ok) throw new Error(await r.text());
-    showPage("thankyou");
-  } catch(e) {
-    console.error("Submit error:", e);
-    showPage("thankyou");
-  }
-}
-
-// ==================== DASHBOARD ====================
-async function unlockDash() {
-  const code = document.getElementById("dash-code").value;
-  const err = document.getElementById("dash-err");
-  if (code !== CONFIG.PASSCODE) {
-    err.textContent = "Incorrect passcode.";
-    err.classList.remove("hidden");
-    return;
-  }
-  err.classList.add("hidden");
-  const btn = document.getElementById("dash-unlock-btn");
-  btn.disabled = true;
-  btn.textContent = "Loading...";
-
-  try {
-    const records = await fetchAllRecords();
-    renderDashboard(records);
-    document.getElementById("dash-lock").classList.add("hidden");
-    document.getElementById("dash-content").classList.remove("hidden");
-  } catch(e) {
-    err.textContent = "Could not load responses. Check configuration.";
-    err.classList.remove("hidden");
-  }
-  btn.disabled = false;
-  btn.textContent = "View Responses";
-}
-
-async function fetchAllRecords() {
-  let all = [], offset = null;
-  do {
-    const url = new URL(`https://api.airtable.com/v0/${CONFIG.AIRTABLE_BASE_ID}/${encodeURIComponent(CONFIG.AIRTABLE_TABLE)}`);
-    if (offset) url.searchParams.set("offset", offset);
-    const r = await fetch(url, {headers:{"Authorization":`Bearer ${CONFIG.AIRTABLE_TOKEN}`}});
-    const data = await r.json();
-    if (!r.ok) throw new Error(JSON.stringify(data));
-    all = all.concat(data.records || []);
-    offset = data.offset;
-  } while (offset);
-  return all.map(r => r.fields);
-}
-
-function renderDashboard(rows) {
-  const n = rows.length;
-  const avgOf = (f) => {
-    const vals = rows.map(r=>r[f]).filter(v=>typeof v==="number"&&v>=1&&v<=5);
-    return vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) : "—";
+// --- Collect all answers ---
+function collectAnswers() {
+  return {
+    'Name': document.getElementById('q1').value.trim(),
+    'Email': document.getElementById('q2').value.trim(),
+    'Version Read': getRadio('q3'),
+    'How Read': getRadio('q4'),
+    'Finished': getRadio('q5'),
+    'Overall Attention': scaleValues['q6'] || '',
+    'Drawn In Speed': getRadio('q7'),
+    'Commercial Feel': getRadio('q8'),
+    'Commercial Feel Comment': document.getElementById('q8b').value.trim(),
+    'Three Words': [document.getElementById('q9a').value.trim(), document.getElementById('q9b').value.trim(), document.getElementById('q9c').value.trim()].filter(Boolean).join(' / '),
+    'Overall Pacing': getRadio('q10'),
+    'Attention Dip Sections': document.getElementById('q11').value.trim(),
+    'Rushed Sections': document.getElementById('q12').value.trim(),
+    'Tension Build': scaleValues['q13'] || '',
+    'Character Stayed With': document.getElementById('q14').value.trim(),
+    'Morag Investment': scaleValues['q15'] || '',
+    'Family Investment': scaleValues['q16'] || '',
+    'Billy Believable': getRadio('q17'),
+    'Billy Comment': document.getElementById('q17b').value.trim(),
+    'Character Issues': document.getElementById('q18').value.trim(),
+    'Ending Satisfaction': scaleValues['q19'] || '',
+    'Ending Pace': getRadio('q20'),
+    'Ending Earned': scaleValues['q21'] || '',
+    'Closure': getRadio('q22'),
+    'Want More Aftermath': getRadio('q23'),
+    'Ending Emotion': getRadio('q24'),
+    'Ending Emotion Comment': document.getElementById('q24b').value.trim(),
+    'Final Chapter Recommend Effect': getRadio('q25'),
+    'Ending Change': document.getElementById('q26').value.trim(),
+    'Ending Left Feeling': document.getElementById('q27').value.trim(),
+    'Abuse Realism': getRadio('q28'),
+    'Tone Issues': document.getElementById('q29').value.trim(),
+    'Hidden Abuse Clarity': scaleValues['q30'] || '',
+    'Support Note': getRadio('q31'),
+    'Recommend Score': scaleValues['q32'] || '',
+    'Ideal Reader': document.getElementById('q33').value.trim(),
+    'Comparisons': document.getElementById('q34').value.trim(),
+    'One Sentence Summary': document.getElementById('q35').value.trim(),
+    'Strongest Thing': document.getElementById('q36').value.trim(),
+    'Biggest Weakness': document.getElementById('q37').value.trim(),
+    'Interest Next Book': getRadio('q38'),
+    'Beta Reader Next Book': getRadio('q39'),
+    'Permission To Quote': getRadio('q40'),
+    'Anything Else': document.getElementById('q41').value.trim(),
+    'Submitted At': new Date().toISOString()
   };
-  const criedCount = rows.filter(r=>["Yes","Nearly"].includes(r[FIELD_MAP.q6])).length;
-
-  document.getElementById("dash-stats").innerHTML = [
-    {label:"Total Responses",val:n},
-    {label:"Avg Engagement",val:`${avgOf(FIELD_MAP.q2)}/5`},
-    {label:"Avg Recommend",val:`${avgOf(FIELD_MAP.q31)}/5`},
-    {label:"Cried / Nearly",val:n?`${criedCount} of ${n}`:"—"},
-  ].map(s=>`<div class="dash-stat"><div class="dash-stat-val">${s.val}</div><div class="dash-stat-label">${s.label}</div></div>`).join("");
-
-  if (n === 0) {
-    document.getElementById("dash-sections").innerHTML = `<div class="no-data">No responses yet.</div>`;
-    return;
-  }
-
-  let qNum = 0;
-  let html = "";
-  SECTIONS.forEach((sec, si) => {
-    html += `<div class="section-header"><div class="eyebrow">Section ${si+1}</div><h3>${sec.title}</h3></div>`;
-    sec.questions.forEach(q => {
-      qNum++;
-      html += renderDashQuestion(q, rows, qNum);
-    });
-  });
-  document.getElementById("dash-sections").innerHTML = html;
-  document.querySelectorAll(".text-toggle").forEach(btn => {
-    btn.onclick = () => {
-      const list = btn.nextElementSibling;
-      const isOpen = !list.classList.contains("hidden");
-      list.classList.toggle("hidden", isOpen);
-      btn.textContent = (isOpen ? "Show " : "Hide ") + btn.dataset.count + " written response" + (btn.dataset.count==1?"":"s");
-    };
-  });
 }
 
-function renderDashQuestion(q, rows, num) {
-  const isScale = q.type==="scale"||q.type==="scale_text";
-  const isRadio = q.type==="radio"||q.type==="cond"||q.type==="cry";
-  const fieldName = FIELD_MAP[q.id];
-  let inner = "";
+// --- Submit ---
+async function submitSurvey() {
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
 
-  if (isScale && fieldName) {
-    const vals = rows.map(r=>r[fieldName]).filter(v=>typeof v==="number"&&v>=1&&v<=5);
-    if (vals.length) {
-      const avg = (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1);
-      inner += `<div class="avg-display">${avg}<span style="font-size:14px;color:var(--mu);font-weight:400">/5</span></div>
-                <div class="avg-sub">${vals.length} response${vals.length!==1?"s":""} · 1=best, 5=weakest</div><br>`;
-      [1,2,3,4,5].forEach(n => {
-        const c = vals.filter(v=>v===n).length;
-        const pct = Math.round((c/vals.length)*100);
-        inner += `<div class="bar-row"><div class="bar-label-row"><span class="bar-label">${n}</span><span class="bar-count">${c} (${pct}%)</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div></div>`;
-      });
-    } else { inner = `<p class="muted">No responses yet.</p>`; }
+  const fields = collectAnswers();
+
+  try {
+    const response = await fetch('https://api.airtable.com/v0/' + AIRTABLE_BASE + '/' + AIRTABLE_RESPONSES_TABLE, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + AIRTABLE_TOKEN,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ fields: fields })
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      console.error('Airtable error:', err);
+      // Still show thank you — don't strand the reader
+    }
+  } catch(err) {
+    console.error('Submit error:', err);
   }
-  else if (isRadio && fieldName) {
-    const vals = rows.map(r=>r[fieldName]).filter(Boolean);
-    if (vals.length) {
-      const counts = {};
-      vals.forEach(v=>{counts[v]=(counts[v]||0)+1;});
-      inner += `<div class="avg-sub" style="margin-bottom:10px">${vals.length} response${vals.length!==1?"s":""}</div>`;
-      Object.entries(counts).sort((a,b)=>b[1]-a[1]).forEach(([opt,c]) => {
-        const pct = Math.round((c/vals.length)*100);
-        inner += `<div class="bar-row"><div class="bar-label-row"><span class="bar-label">${opt}</span><span class="bar-count">${c} (${pct}%)</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div></div>`;
-      });
-    } else { inner = `<p class="muted">No responses yet.</p>`; }
+
+  // Show thank you
+  document.getElementById('survey-wrap').style.display = 'none';
+  document.getElementById('thankyou').style.display = 'block';
+  document.getElementById('progress-fill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// --- Dashboard ---
+function showDashboard() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function backToSurvey() {
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('landing').style.display = 'block';
+}
+
+function dashLogin() {
+  const code = document.getElementById('dash-passcode').value;
+  const err = document.getElementById('dash-error');
+  if (code === DASH_PASSCODE) {
+    document.getElementById('dash-login-form').style.display = 'none';
+    document.getElementById('dash-content').style.display = 'block';
+    loadDashboard();
+  } else {
+    err.style.display = 'block';
   }
-  else if (q.type === "three_part") {
-    [0,1,2].forEach((pi) => {
-      const pk = `${q.id}_${pi}`;
-      const fn = FIELD_MAP[pk];
-      const vals = fn ? rows.map(r=>r[fn]).filter(Boolean) : [];
-      if (vals.length) {
-        const counts = {};
-        vals.forEach(v=>{counts[v]=(counts[v]||0)+1;});
-        inner += `<div style="margin-bottom:12px"><div class="three-part-label">${["The Opening","The Middle","The Final Section"][pi]}</div>`;
-        Object.entries(counts).sort((a,b)=>b[1]-a[1]).forEach(([opt,c]) => {
-          const pct = Math.round((c/vals.length)*100);
-          inner += `<div class="bar-row"><div class="bar-label-row"><span class="bar-label">${opt}</span><span class="bar-count">${c} (${pct}%)</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div></div>`;
-        });
-        inner += `</div>`;
+}
+
+async function loadDashboard() {
+  const btn = document.querySelector('[onclick="loadDashboard()"]');
+  if (btn) { btn.textContent = 'Loading…'; btn.disabled = true; }
+
+  try {
+    let url = 'https://api.airtable.com/v0/' + AIRTABLE_BASE + '/' + AIRTABLE_RESPONSES_TABLE + '?pageSize=100';
+    let records = [];
+    let offset = null;
+    do {
+      const fetchUrl = offset ? url + '&offset=' + offset : url;
+      const res = await fetch(fetchUrl, {
+        headers: { 'Authorization': 'Bearer ' + AIRTABLE_TOKEN }
+      });
+      const data = await res.json();
+      if (data.records) records = records.concat(data.records);
+      offset = data.offset || null;
+    } while (offset);
+
+    allResponses = records.map(function(r) { return r.fields; });
+    renderDashboard();
+  } catch(e) {
+    document.getElementById('dash-stats').innerHTML = '<p style="color:var(--error)">Error loading data: ' + e.message + '</p>';
+  }
+
+  if (btn) { btn.textContent = '↻ Refresh Data'; btn.disabled = false; }
+}
+
+function avg(arr) {
+  const nums = arr.filter(function(v) { return v && !isNaN(Number(v)); }).map(Number);
+  if (!nums.length) return null;
+  return (nums.reduce(function(a,b){return a+b;},0) / nums.length).toFixed(2);
+}
+
+function renderDashboard() {
+  const filter = document.getElementById('dash-filter-version').value;
+  const data = filter === 'all' ? allResponses : allResponses.filter(function(r) { return r['Version Read'] === filter; });
+  const bData = allResponses.filter(function(r) { return r['Version Read'] === 'Version B'; });
+  const cData = allResponses.filter(function(r) { return r['Version Read'] === 'Version C'; });
+
+  function field(r, f) { return r[f] || ''; }
+
+  // Stats
+  const statsHtml = '<div class="dash-section"><h3>Summary</h3><div class="stat-grid">' +
+    statCard(allResponses.length, 'Total Responses') +
+    statCard(bData.length, 'Version B') +
+    statCard(cData.length, 'Version C') +
+    statCard(avg(data.map(function(r){return r['Ending Satisfaction'];})) || '—', 'Avg Ending Sat.') +
+    statCard(avg(data.map(function(r){return r['Recommend Score'];})) || '—', 'Avg Recommend') +
+    statCard(avg(data.map(function(r){return r['Overall Attention'];})) || '—', 'Avg Attention') +
+    '</div></div>';
+
+  // B vs C comparison
+  const metrics = [
+    { label: 'Ending Satisfaction', field: 'Ending Satisfaction' },
+    { label: 'Ending Earned', field: 'Ending Earned' },
+    { label: 'Recommend Score', field: 'Recommend Score' },
+    { label: 'Overall Attention', field: 'Overall Attention' },
+    { label: 'Morag Investment', field: 'Morag Investment' },
+  ];
+
+  let compareHtml = '<div class="dash-section"><h3>B vs C — Key Metrics</h3>';
+  metrics.forEach(function(m) {
+    const bAvg = avg(bData.map(function(r){return r[m.field];}));
+    const cAvg = avg(cData.map(function(r){return r[m.field];}));
+    compareHtml += '<div style="margin-bottom:12px;"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:0.8rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">' + m.label + '</div>';
+    compareHtml += '<div class="compare-row">';
+    compareHtml += '<div class="compare-block"><div class="ver-label">Version B</div><div class="ver-score">' + (bAvg || '—') + '</div><div class="ver-n">n=' + bData.length + '</div></div>';
+    compareHtml += '<div class="compare-block"><div class="ver-label">Version C</div><div class="ver-score">' + (cAvg || '—') + '</div><div class="ver-n">n=' + cData.length + '</div></div>';
+    compareHtml += '</div></div>';
+  });
+  compareHtml += '</div>';
+
+  // Ending pace distribution
+  let paceHtml = '<div class="dash-section"><h3>Ending Pace — Distribution</h3>';
+  const paceOpts = ['Too rushed', 'Slightly rushed', 'About right', 'Slightly too extended', 'Too extended'];
+  ['Version B', 'Version C'].forEach(function(ver) {
+    const vd = allResponses.filter(function(r){return r['Version Read']===ver;});
+    if (!vd.length) return;
+    paceHtml += '<div style="margin-bottom:12px;"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--amber);margin-bottom:6px;">' + ver + '</div>';
+    paceOpts.forEach(function(opt) {
+      const count = vd.filter(function(r){return r['Ending Pace']===opt;}).length;
+      const pct = vd.length ? Math.round((count/vd.length)*100) : 0;
+      paceHtml += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;font-size:0.85rem;"><span style="width:160px;color:var(--text-muted);">' + opt + '</span><div style="flex:1;background:var(--border);height:8px;border-radius:2px;"><div style="width:' + pct + '%;background:var(--amber);height:100%;border-radius:2px;"></div></div><span style="width:40px;text-align:right;color:var(--text-muted);">' + count + '</span></div>';
+    });
+    paceHtml += '</div>';
+  });
+  paceHtml += '</div>';
+
+  // Closure distribution
+  let closureHtml = '<div class="dash-section"><h3>Closure — Distribution</h3>';
+  const closureOpts = ['Yes definitely', 'Mostly', 'Not quite', 'No'];
+  ['Version B', 'Version C'].forEach(function(ver) {
+    const vd = allResponses.filter(function(r){return r['Version Read']===ver;});
+    if (!vd.length) return;
+    closureHtml += '<div style="margin-bottom:12px;"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--amber);margin-bottom:6px;">' + ver + '</div>';
+    closureOpts.forEach(function(opt) {
+      const count = vd.filter(function(r){return r['Closure']===opt;}).length;
+      const pct = vd.length ? Math.round((count/vd.length)*100) : 0;
+      closureHtml += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;font-size:0.85rem;"><span style="width:160px;color:var(--text-muted);">' + opt + '</span><div style="flex:1;background:var(--border);height:8px;border-radius:2px;"><div style="width:' + pct + '%;background:var(--amber);height:100%;border-radius:2px;"></div></div><span style="width:40px;text-align:right;color:var(--text-muted);">' + count + '</span></div>';
+    });
+    closureHtml += '</div>';
+  });
+  closureHtml += '</div>';
+
+  // Individual responses
+  let responsesHtml = '<div class="dash-section"><h3>Individual Responses (' + data.length + ')</h3><div class="response-list">';
+  if (!data.length) {
+    responsesHtml += '<p style="color:var(--text-muted);font-style:italic;">No responses yet.</p>';
+  }
+  data.forEach(function(r) {
+    responsesHtml += '<div class="response-item">';
+    responsesHtml += '<div class="r-meta">' + (r['Name'] || 'Anonymous') + ' — ' + (r['Version Read'] || 'Unknown version') + ' — ' + (r['Submitted At'] ? r['Submitted At'].substring(0,10) : '') + '</div>';
+    const keyFields = [
+      ['Ending Satisfaction', 'Ending Satisfaction'],
+      ['Ending Pace', 'Ending Pace'],
+      ['Ending Earned', 'Ending Earned'],
+      ['Closure', 'Closure'],
+      ['Want More Aftermath', 'Want More Aftermath'],
+      ['Ending Emotion', 'Ending Emotion'],
+      ['Final Chapter Recommend Effect', 'Final Chapter Rec. Effect'],
+      ['Recommend Score', 'Recommend Score'],
+      ['Overall Attention', 'Overall Attention'],
+      ['Ending Change', 'Would Change'],
+      ['Ending Left Feeling', 'Ending Left Feeling'],
+      ['One Sentence Summary', 'Summary'],
+      ['Strongest Thing', 'Strongest'],
+      ['Biggest Weakness', 'Weakness'],
+      ['Anything Else', 'Notes'],
+    ];
+    keyFields.forEach(function(pair) {
+      const val = r[pair[0]];
+      if (val) {
+        responsesHtml += '<div class="r-field"><strong>' + pair[1] + '</strong> ' + val + '</div>';
       }
     });
-  }
-  else if (q.type === "three_words") {
-    const vals = rows.map(r=>[FIELD_MAP.q7_0,FIELD_MAP.q7_1,FIELD_MAP.q7_2].map(f=>r[f]).filter(Boolean).join(" · ")).filter(v=>v.length>0);
-    if (vals.length) {
-      inner += `<div class="avg-sub" style="margin-bottom:8px">${vals.length} response${vals.length!==1?"s":""}</div>`;
-      inner += `<div class="text-responses"><button class="text-toggle" data-count="${vals.length}">Show ${vals.length} written response${vals.length!==1?"s":""}</button><div class="text-list hidden">${vals.map(t=>`<div class="text-item">"${t}"</div>`).join("")}</div></div>`;
-      return wrapQ(q, num, inner);
-    }
-  }
-
-  const textKeys = [`${q.id}`, `${q.id}_text`];
-  textKeys.forEach(tk => {
-    const fn = FIELD_MAP[tk];
-    if (!fn) return;
-    const vals = rows.map(r=>r[fn]).filter(v=>v&&typeof v==="string"&&v.length>2);
-    if (vals.length && (q.type==="textarea"||tk.endsWith("_text"))) {
-      inner += `<div class="text-responses"><button class="text-toggle" data-count="${vals.length}">Show ${vals.length} written response${vals.length!==1?"s":""}</button><div class="text-list hidden">${vals.map(t=>`<div class="text-item">"${t}"</div>`).join("")}</div></div>`;
-    }
+    responsesHtml += '</div>';
   });
+  responsesHtml += '</div></div>';
 
-  if (!inner) inner = `<p class="muted">No responses yet.</p>`;
-  return wrapQ(q, num, inner);
+  document.getElementById('dash-stats').innerHTML = statsHtml + compareHtml + paceHtml + closureHtml;
+  document.getElementById('dash-responses').innerHTML = responsesHtml;
 }
 
-function wrapQ(q, num, inner) {
-  return `<div class="dash-q"><div class="dash-q-num">Q${num}</div>
-    <div class="dash-q-text">${q.label||q.text.substring(0,120)+(q.text.length>120?"…":"")}</div>
-    ${inner}</div>`;
+function statCard(val, label) {
+  return '<div class="stat-card"><div class="stat-number">' + val + '</div><div class="stat-label">' + label + '</div></div>';
 }
+
 </script>
 </body>
 </html>
