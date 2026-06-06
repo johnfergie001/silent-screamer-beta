@@ -404,7 +404,11 @@
       </p>
 
       <a class="btn-download" id="btn-download" href="#" target="_blank">
-        ↓ Download Your PDF
+        ↓ Download PDF
+      </a>
+
+      <a class="btn-download" id="btn-download-epub" href="#" target="_blank" style="background:transparent;border:1px solid var(--amber);color:var(--amber);margin-top:10px;">
+        ↓ Download EPUB (Kindle / Kobo / phone)
       </a>
 
       <a class="btn-survey" id="btn-survey" href="#">
@@ -434,6 +438,11 @@
   const PDF_LINKS = {
     B: 'https://drive.google.com/uc?export=download&id=1GmxvRRAeKEUFl-k55MSmr4h9_A98jmjh',
     C: 'https://drive.google.com/uc?export=download&id=1Ys-V4cptto-Wo_0bR1kOkWnDmRv3M3UP'
+  };
+
+  const EPUB_LINKS = {
+    B: 'https://drive.google.com/uc?export=download&id=13vkFjToujPZVr00tMYZkNlGcpVxAvqIq',
+    C: 'https://drive.google.com/uc?export=download&id=1SXh4wn3uOOP76v1uhlKX8huSL1XwxXXG'
   };
 
   const SURVEY_URL = 'https://johnfergie001.github.io/silent-screamer-beta/survey.html';
@@ -506,8 +515,9 @@
     document.getElementById('confirm-name-heading').textContent = `Welcome, ${firstName}`;
     document.getElementById('confirm-version-label').textContent = `You have been assigned Version ${version}`;
 
-    // Set download link
+    // Set download links
     document.getElementById('btn-download').href = PDF_LINKS[version];
+    document.getElementById('btn-download-epub').href = EPUB_LINKS[version];
 
     // Build survey URL with version + email as params
     const surveyUrl = `${SURVEY_URL}?version=${encodeURIComponent(version)}&email=${encodeURIComponent(email)}`;
