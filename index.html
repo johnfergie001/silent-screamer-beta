@@ -2,190 +2,533 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Silent Screamer — Beta Reader Registration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Georgia,"Times New Roman",serif;background:#FAF7F2;color:#1C1410;min-height:100vh}
-:root{--cr:#8B2635;--dk:#1C1410;--mu:#9C8B7E;--bd:#DDD5C8;--lb:#F3EDE4;--wm:#5C3D2E;--ac:#C9956A}
-.wrap{max-width:640px;margin:0 auto;padding:32px 20px}
-.center{text-align:center}
-.hidden{display:none!important}
-.eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--cr);margin-bottom:10px}
-h1{font-size:32px;font-weight:700;line-height:1.2;margin-bottom:8px}
-h2{font-size:22px;font-weight:700;margin-bottom:16px}
-.muted{color:var(--mu);font-style:italic;font-size:13px}
-.intro-box{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:28px 32px;margin-bottom:24px;line-height:1.85;font-size:14px}
-.intro-box p{margin-bottom:14px}
-.intro-box p:last-child{margin-bottom:0}
-.field{margin-bottom:18px}
-.field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--cr);margin-bottom:7px;font-weight:600}
-.field input{width:100%;padding:12px 14px;border:1px solid var(--bd);border-radius:6px;font-family:inherit;font-size:14px;color:var(--dk);background:#fff;outline:none;transition:border-color .15s}
-.field input:focus{border-color:var(--cr)}
-.btn-primary{width:100%;padding:14px;background:var(--cr);color:#fff;border:none;border-radius:6px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s;margin-top:8px}
-.btn-primary:hover{opacity:.88}
-.btn-primary:disabled{opacity:.5;cursor:not-allowed}
-.err-msg{color:var(--cr);font-size:13px;margin-bottom:12px;text-align:center;display:none}
-.divider{border:none;border-top:1px solid var(--bd);margin:28px 0}
-.version-badge{display:inline-block;background:var(--cr);color:#fff;font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:5px 14px;border-radius:3px;margin-bottom:20px}
-.download-box{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:24px 28px;margin-bottom:16px}
-.download-box h3{font-size:15px;font-weight:700;margin-bottom:6px}
-.download-box p{font-size:13px;color:var(--mu);line-height:1.6;margin-bottom:16px}
-.btn-download{display:block;width:100%;padding:13px;background:var(--cr);color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;text-align:center;transition:opacity .2s;margin-bottom:10px}
-.btn-download:hover{opacity:.88}
-.btn-download.secondary{background:#fff;color:var(--cr);border:1px solid var(--cr)}
-.survey-prompt{background:var(--lb);border-left:3px solid var(--ac);padding:16px 20px;border-radius:0 6px 6px 0;font-size:13px;line-height:1.7;color:var(--wm);margin-top:24px}
-.survey-prompt a{color:var(--cr);font-weight:600}
-.small-note{font-size:11px;color:var(--mu);text-align:center;margin-top:12px;font-style:italic;line-height:1.6}
-.logo-area{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--bd)}
-.book-title{font-size:36px;font-weight:700;letter-spacing:-1px;line-height:1}
-.book-subtitle{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--mu);margin-top:5px}
-.author{font-size:14px;color:var(--wm);margin-top:8px;font-style:italic}
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --amber: #c9902a;
+    --amber-light: #e8a83a;
+    --text: #e8e0d0;
+    --text-muted: #8a7f70;
+    --border: #2a2520;
+    --error: #c0392b;
+    --success: #2e7d56;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', serif;
+    font-size: 18px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .noise {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+
+  .masthead {
+    text-align: center;
+    margin-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 40px;
+  }
+
+  .title-silent {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(3rem, 10vw, 5.5rem);
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    line-height: 0.9;
+    display: block;
+    text-transform: uppercase;
+  }
+
+  .title-screamer {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(3.5rem, 12vw, 7rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--amber);
+    line-height: 0.9;
+    display: block;
+    text-transform: uppercase;
+  }
+
+  .title-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-top: 10px;
+    display: block;
+  }
+
+  .tagline {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-top: 20px;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+  }
+
+  .intro {
+    margin-bottom: 40px;
+    color: var(--text);
+  }
+
+  .intro p {
+    margin-bottom: 1em;
+  }
+
+  .intro p:last-child {
+    margin-bottom: 0;
+  }
+
+  .form-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 36px 32px;
+    margin-bottom: 32px;
+  }
+
+  .form-card h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 24px;
+  }
+
+  .field {
+    margin-bottom: 20px;
+  }
+
+  .field label {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .field input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .field input:focus {
+    border-color: var(--amber);
+  }
+
+  .field input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  .btn-register {
+    width: 100%;
+    background: var(--amber);
+    color: #0a0a0a;
+    border: none;
+    padding: 16px 24px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 8px;
+  }
+
+  .btn-register:hover {
+    background: var(--amber-light);
+  }
+
+  .btn-register:active {
+    transform: scale(0.99);
+  }
+
+  .btn-register:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .error-msg {
+    color: var(--error);
+    font-size: 0.9rem;
+    margin-top: 8px;
+    display: none;
+  }
+
+  /* --- Confirmation panel --- */
+  #confirmation {
+    display: none;
+    text-align: center;
+  }
+
+  .confirm-badge {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #0a0a0a;
+    background: var(--amber);
+    padding: 6px 16px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+
+  .confirm-heading {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .confirm-version {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 20px;
+  }
+
+  .confirm-text {
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .btn-download {
+    display: inline-block;
+    background: var(--amber);
+    color: #0a0a0a;
+    text-decoration: none;
+    padding: 14px 28px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    margin-bottom: 16px;
+    transition: background 0.2s;
+    display: block;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .btn-download:hover {
+    background: var(--amber-light);
+  }
+
+  .btn-survey {
+    display: block;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    padding: 14px 28px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: border-color 0.2s, color 0.2s;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin-top: 12px;
+  }
+
+  .btn-survey:hover {
+    border-color: var(--amber);
+    color: var(--amber);
+  }
+
+  .survey-note {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 16px;
+    font-style: italic;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 40px 0;
+  }
+
+  .footer-note {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .footer-note a {
+    color: var(--amber);
+    text-decoration: none;
+  }
+
+  .support-note {
+    background: var(--surface2);
+    border-left: 3px solid var(--border);
+    padding: 16px 20px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 32px;
+    line-height: 1.6;
+  }
+
+  .support-note strong {
+    color: var(--text);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  @media (max-width: 480px) {
+    .wrapper { padding: 40px 16px 60px; }
+    .form-card { padding: 24px 20px; }
+  }
 </style>
 </head>
 <body>
+<div class="noise"></div>
 
-<!-- PAGE 1: REGISTRATION -->
-<div id="pg-register" class="wrap">
-  <div class="logo-area center">
-    <p class="eyebrow">Beta Reader Programme</p>
-    <h1 class="book-title">Silent Screamer</h1>
-    <p class="book-subtitle">The Watching Window</p>
-    <p class="author">John Fergie</p>
+<div class="wrapper">
+
+  <div class="masthead">
+    <span class="title-silent">Silent</span>
+    <span class="title-screamer">Screamer</span>
+    <span class="title-sub">The Watching Window</span>
+    <p class="tagline">— not every prison has bars —</p>
   </div>
 
-  <div class="intro-box">
-    <p>Thank you for agreeing to be a beta reader. Register below and you'll receive an immediate download link for your copy of the manuscript — plus a link to the feedback survey.</p>
-    <p>Your honest, specific feedback will be much appreciated — but first and foremost, I hope you enjoy it!</p>
-    <p>I recommend using the <strong>ReadEra</strong> app to read it on tablet or phone — get it at <a href="https://www.readera.org/" target="_blank" style="color:var(--cr);">readera.org</a>. For Kindle readers, once the file is downloaded go to <a href="https://www.amazon.co.uk/sendtokindle" target="_blank" style="color:var(--cr);">amazon.co.uk/sendtokindle</a> to send it to yourself.</p>
-    <p style="border-top:1px solid var(--bd);padding-top:12px;font-size:12px;color:var(--mu);font-style:italic">Takes around 2 minutes to register. The survey takes around 20 minutes and can be completed any time after reading.</p>
+  <!-- Registration form -->
+  <div id="registration">
+    <div class="intro">
+      <p>Thank you for agreeing to be a beta reader for <em>Silent Screamer</em>. This is a debut literary domestic noir set in 1970s working-class Scotland.</p>
+      <p>Once you register below, you'll be assigned a version of the manuscript and given a direct PDF download link. After you've finished reading, a survey link will be provided — your feedback will directly shape the published book.</p>
+      <p>There are no right or wrong answers. I need honest reader experience, not a critique.</p>
+    </div>
+
+    <div class="form-card">
+      <h2>Register as a Beta Reader</h2>
+
+      <div class="field">
+        <label for="name">Your name</label>
+        <input type="text" id="name" placeholder="First and last name" autocomplete="name">
+      </div>
+
+      <div class="field">
+        <label for="email">Email address</label>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+      </div>
+
+      <div id="form-error" class="error-msg">Please fill in both fields before registering.</div>
+
+      <button class="btn-register" id="btn-register" onclick="registerReader()">Register and Get My Copy</button>
+    </div>
+
+    <div class="support-note">
+      <strong>A note on content</strong>
+      This novel deals with coercive control and domestic abuse. If any part of the content affects you, please reach out to the <strong>National Domestic Abuse Helpline: 0808 2000 247</strong> (24 hours, free, confidential).
+    </div>
   </div>
 
-  <p class="err-msg" id="err-msg">Something went wrong — please try again.</p>
+  <!-- Confirmation panel (shown after registration) -->
+  <div id="confirmation">
+    <div class="form-card">
+      <div class="confirm-badge">Registration complete</div>
+      <h1 class="confirm-heading" id="confirm-name-heading">Welcome</h1>
+      <p class="confirm-version" id="confirm-version-label">You have been assigned Version B</p>
+      <p class="confirm-text">
+        Your download link is ready below. Please keep your PDF secure — this is a confidential beta copy, not for distribution.
+      </p>
 
-  <div class="field">
-    <label for="reg-name">Your name</label>
-    <input type="text" id="reg-name" placeholder="First name is fine" autocomplete="given-name">
-  </div>
-  <div class="field">
-    <label for="reg-email">Email address</label>
-    <input type="email" id="reg-email" placeholder="you@example.com" autocomplete="email">
-  </div>
+      <a class="btn-download" id="btn-download" href="#" target="_blank">
+        ↓ Download Your PDF
+      </a>
 
-  <button class="btn-primary" id="btn-register" onclick="handleRegister()">Get my copy →</button>
-  <p class="small-note">Your email is used only to match your registration with your survey response.<br>It will never be shared or used for marketing.</p>
-</div>
+      <a class="btn-survey" id="btn-survey" href="#">
+        Complete the Feedback Survey →
+      </a>
 
-<!-- PAGE 2: DOWNLOAD -->
-<div id="pg-download" class="wrap hidden">
-  <div class="logo-area center">
-    <p class="eyebrow">Beta Reader Programme</p>
-    <h1 class="book-title">Silent Screamer</h1>
-    <p class="book-subtitle">The Watching Window</p>
-    <p class="author">John Fergie</p>
+      <p class="survey-note">You can return to the survey after you've finished reading. Use the same email address you registered with.</p>
+    </div>
   </div>
 
-  <div class="center" style="margin-bottom:24px">
-    <span class="version-badge" id="version-label">Version A</span>
-    <h2 style="margin-top:14px">You're all set, <span id="reader-name">reader</span>.</h2>
-    <p class="muted">Download your copy below and read at your own pace.</p>
+  <hr class="divider">
+
+  <div class="footer-note">
+    <em>Silent Screamer: The Watching Window</em> by John Fergie<br>
+    Beta reader programme — June 2026<br>
+    Confidential. Not for distribution.
   </div>
 
-  <div class="download-box">
-    <h3>Your manuscript</h3>
-    <p>Two formats available — epub works on Kindle, Apple Books, Kobo and most reading apps. PDF works anywhere.</p>
-    <a class="btn-download" id="link-epub" href="#" target="_blank">↓ Download ePub</a>
-    <a class="btn-download secondary" id="link-pdf" href="#" target="_blank">↓ Download PDF</a>
-  </div>
-
-  <div class="survey-prompt">
-    <strong>After you've finished reading</strong>, please complete the feedback survey — it takes around 20 minutes and every answer helps.<br><br>
-    <a href="https://johnfergie001.github.io/silent-screamer-beta/survey.html" target="_blank">Open the survey →</a>
-  </div>
-
-  <p class="small-note" style="margin-top:20px">If you have any problems downloading, reply to John's original message and he'll sort it out.</p>
 </div>
 
 <script>
-const AIRTABLE_TOKEN = 'patyXWvShYfbkcUbK.fe79adbf1d295591d23ddf04f116bbbb6f1638d7bed7af530b0d5ce55a89f3b9';
-const AIRTABLE_BASE  = 'appBc4ISDs5qx6hTQ';
-const AIRTABLE_TABLE = 'Registrations';
+  // --- Config ---
+  const AIRTABLE_TOKEN = 'pattAd8qx5KQ6Gvpi';
+  const AIRTABLE_BASE = 'appBc4ISDs5qx6hTQ';
+  const AIRTABLE_TABLE = 'Registrations';
 
-const FILES = {
-  A: {
-    epub: 'https://drive.google.com/uc?export=download&id=19aAykrZQqnYLkjxKocZ2-yOFlbxfnpo8',
-    pdf:  'https://drive.google.com/uc?export=download&id=1_fmVC16WRTcsg555jgtdwm8YSFE2v1C1'
-  },
-  B: {
-    epub: 'https://drive.google.com/uc?export=download&id=18JMfYEINAWl0D4ZOS6EHhMMczIji2HMF',
-    pdf:  'https://drive.google.com/uc?export=download&id=1E1r46XlwQ4r0tjWSJUzuw3mxwFbSwPfT'
-  }
-};
+  const PDF_LINKS = {
+    B: 'https://drive.google.com/uc?export=download&id=1GmxvRRAeKEUFl-k55MSmr4h9_A98jmjh',
+    C: 'https://drive.google.com/uc?export=download&id=1Ys-V4cptto-Wo_0bR1kOkWnDmRv3M3UP'
+  };
 
-function assignVersion() {
-  return (Math.floor(Date.now() / 1000) % 2 === 0) ? 'A' : 'B';
-}
+  const SURVEY_URL = 'https://johnfergie001.github.io/silent-screamer-beta/survey.html';
 
-async function handleRegister() {
-  const name  = document.getElementById('reg-name').value.trim();
-  const email = document.getElementById('reg-email').value.trim();
-  const err   = document.getElementById('err-msg');
-  const btn   = document.getElementById('btn-register');
-
-  err.style.display = 'none';
-
-  if (!email || !email.includes('@')) {
-    err.textContent = 'Please enter a valid email address.';
-    err.style.display = 'block';
-    return;
+  // --- Assign version: simple 50/50 ---
+  function assignVersion() {
+    return Math.random() < 0.5 ? 'B' : 'C';
   }
 
-  btn.disabled = true;
-  btn.textContent = 'Registering…';
+  // --- Register ---
+  async function registerReader() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const errorEl = document.getElementById('form-error');
 
-  const version = assignVersion();
-  const now     = new Date().toISOString();
+    if (!name || !email) {
+      errorEl.style.display = 'block';
+      return;
+    }
+    errorEl.style.display = 'none';
 
-  try {
-    const resp = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        records: [{
+    const btn = document.getElementById('btn-register');
+    btn.disabled = true;
+    btn.textContent = 'Registering…';
+
+    const version = assignVersion();
+    const timestamp = new Date().toISOString();
+
+    // Save to localStorage
+    try {
+      localStorage.setItem('silentScreamerVersion', version);
+      localStorage.setItem('silentScreamerEmail', email);
+      localStorage.setItem('silentScreamerName', name);
+    } catch(e) {}
+
+    // Save to Airtable
+    try {
+      const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${encodeURIComponent(AIRTABLE_TABLE)}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
           fields: {
-            Name:            name || '(not provided)',
-            Email:           email,
-            Version:         version,
-            'Registered At': now
+            'Name': name,
+            'Email': email,
+            'Version': version,
+            'Registered At': timestamp
           }
-        }]
-      })
-    });
+        })
+      });
 
-    if (!resp.ok) throw new Error('Worker error');
+      if (!response.ok) {
+        const err = await response.json();
+        console.error('Airtable error:', err);
+        // Don't block the user — show confirmation anyway
+      }
+    } catch(err) {
+      console.error('Network error saving to Airtable:', err);
+      // Continue to confirmation regardless
+    }
 
-    document.getElementById('pg-register').classList.add('hidden');
-    document.getElementById('pg-download').classList.remove('hidden');
-    document.getElementById('version-label').textContent = `Version ${version}`;
-    document.getElementById('reader-name').textContent = name ? name.split(' ')[0] : 'reader';
-    document.getElementById('link-epub').href = FILES[version].epub;
-    document.getElementById('link-pdf').href  = FILES[version].pdf;
-    window.scrollTo(0, 0);
-
-  } catch(e) {
-    err.textContent = 'Something went wrong — please try again in a moment.';
-    err.style.display = 'block';
-    btn.disabled = false;
-    btn.textContent = 'Get my copy →';
+    showConfirmation(name, version, email);
   }
-}
 
-document.getElementById('reg-email').addEventListener('keydown', e => {
-  if (e.key === 'Enter') handleRegister();
-});
+  function showConfirmation(name, version, email) {
+    // Update UI
+    const firstName = name.split(' ')[0];
+    document.getElementById('confirm-name-heading').textContent = `Welcome, ${firstName}`;
+    document.getElementById('confirm-version-label').textContent = `You have been assigned Version ${version}`;
+
+    // Set download link
+    document.getElementById('btn-download').href = PDF_LINKS[version];
+
+    // Build survey URL with version + email as params
+    const surveyUrl = `${SURVEY_URL}?version=${encodeURIComponent(version)}&email=${encodeURIComponent(email)}`;
+    document.getElementById('btn-survey').href = surveyUrl;
+
+    // Show/hide panels
+    document.getElementById('registration').style.display = 'none';
+    document.getElementById('confirmation').style.display = 'block';
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Allow enter key on inputs
+  document.addEventListener('DOMContentLoaded', function() {
+    ['name', 'email'].forEach(function(id) {
+      document.getElementById(id).addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') registerReader();
+      });
+    });
+  });
 </script>
 </body>
 </html>
