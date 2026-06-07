@@ -481,29 +481,21 @@
       localStorage.setItem('silentScreamerName', name);
     } catch(e) {}
 
-    // Save via Cloudflare Worker (token held server-side)
-    try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 6000);
-      const response = await fetch('https://jolly-truth-3959.john-fergie999.workers.dev?table=tblhryU1PwpPFtv3w', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          fields: {
-            'Name': name,
-            'Email': email,
-            'Version': version,
-            'Registered At': timestamp
-          }
-        }),
-        signal: controller.signal
-      });
-      clearTimeout(timeout);
-    } catch(err) {
-      console.error('Worker save failed (continuing anyway):', err);
-    }
-
     showConfirmation(name, version, email);
+
+    // Save via Cloudflare Worker in background — does not block reader
+    fetch('https://jolly-truth-3959.john-fergie999.workers.dev?table=tblhryU1PwpPFtv3w', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fields: {
+          'Name': name,
+          'Email': email,
+          'Version': version,
+          'Registered At': timestamp
+        }
+      })
+    }).catch(function(err) { console.error('Background save failed:', err); });
   }
 
   function showConfirmation(name, version, email) {
