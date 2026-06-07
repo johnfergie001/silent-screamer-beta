@@ -434,9 +434,9 @@
 
 <script>
   // --- Config ---
-  const AIRTABLE_TOKEN = 'pattAd8qx5KQ6Gvpi';
-  const AIRTABLE_BASE = 'appBc4ISDs5qx6hTQ';
-  const AIRTABLE_TABLE = 'tblVa9MCbLvKn7CyE';
+  
+  
+  const WORKER_URL = 'https://jolly-truth-3959.john-fergie999.workers.dev';
 
   const PDF_LINKS = {
     B: 'https://drive.google.com/uc?export=download&id=1GmxvRRAeKEUFl-k55MSmr4h9_A98jmjh',
@@ -485,7 +485,7 @@
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 5000);
-      const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}`, {
+      const response = await fetch(`https://jolly-truth-3959.john-fergie999.workers.dev`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
