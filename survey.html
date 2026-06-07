@@ -932,12 +932,12 @@ function collectAnswers() {
     'Q30 Ideal Reader': document.getElementById('q33').value.trim(),
     'Q32 Questions for Author': document.getElementById('q41').value.trim(),
     'Q33 Anything Else': document.getElementById('q37').value.trim(),
-    'Q2 Engagement 1Best5Worst': scaleValues['q6'] || '',
-    'Q8 Understood Why Stayed 1Best': scaleValues['q15'] || '',
-    'Q11 Pace Overall 1Best': scaleValues['q13'] || '',
-    'Q16 Period Authenticity 1Best': scaleValues['q30'] || '',
-    'Q22 Ending Earned 1Best': scaleValues['q21'] || '',
-    'Q31 Recommend 1Best': scaleValues['q32'] || '',
+    'Q2 Engagement 1Best5Worst': scaleValues['q6'] ? Number(scaleValues['q6']) : null,
+    'Q8 Understood Why Stayed 1Best': scaleValues['q15'] ? Number(scaleValues['q15']) : null,
+    'Q11 Pace Overall 1Best': scaleValues['q13'] ? Number(scaleValues['q13']) : null,
+    'Q16 Period Authenticity 1Best': scaleValues['q30'] ? Number(scaleValues['q30']) : null,
+    'Q22 Ending Earned 1Best': scaleValues['q21'] ? Number(scaleValues['q21']) : null,
+    'Q31 Recommend 1Best': scaleValues['q32'] ? Number(scaleValues['q32']) : null,
     'Submitted At': new Date().toISOString()
   };
 }
