@@ -970,22 +970,14 @@ async function submitSurvey() {
 
   const fields = collectAnswers();
 
-  try {
-    const response = await fetch(WORKER_URL + '?table=tblVa9MCbLvKn7CyE', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fields: fields })
-    });
+  // Submit in background — never blocks reader
+  fetch(WORKER_URL + '?table=tblVa9MCbLvKn7CyE', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fields: fields })
+  }).catch(function(err) { console.error('Survey submit error:', err); });
 
-    if (!response.ok) {
-      const err = await response.json();
-      console.error('Survey submit error:', err);
-    }
-  } catch(err) {
-    console.error('Submit error:', err);
-  }
-
-  // Show thank you regardless
+  // Show thank you immediately
   document.getElementById('survey-wrap').style.display = 'none';
   document.getElementById('thankyou').style.display = 'block';
   document.getElementById('progress-fill').style.width = '100%';
