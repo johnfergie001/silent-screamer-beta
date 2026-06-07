@@ -805,6 +805,7 @@
             <option value="Version C">Version C only</option>
           </select>
         </div>
+        <div id="approvals-panel" style="margin-bottom:28px;"></div>
         <div id="dash-stats"></div>
         <div id="dash-responses"></div>
       </div>
@@ -989,9 +990,69 @@ function dashLogin() {
   if (code === DASH_PASSCODE) {
     document.getElementById('dash-login-form').style.display = 'none';
     document.getElementById('dash-content').style.display = 'block';
+    loadApprovals();
     loadDashboard();
   } else {
     err.style.display = 'block';
+  }
+}
+
+async function loadApprovals() {
+  try {
+    const res = await fetch(WORKER_URL + '?action=pending');
+    const data = await res.json();
+    const records = data.records || [];
+    const panel = document.getElementById('approvals-panel');
+
+    if (!records.length) {
+      panel.innerHTML = '<div class="dash-section"><h3>Pending Registrations</h3><p style="color:var(--text-muted);font-style:italic;">No registrations yet.</p></div>';
+      return;
+    }
+
+    let html = '<div class="dash-section"><h3>Pending Registrations — tick to approve &amp; send email</h3><div class="response-list">';
+    records.forEach(function(rec) {
+      const f = rec.fields;
+      html += '<div class="response-item" style="display:flex;align-items:center;gap:16px;">' +
+        '<input type="checkbox" id="chk-' + rec.id + '" style="width:20px;height:20px;accent-color:var(--amber);flex-shrink:0;" onchange="approveReader(\'' + rec.id + '\',\'' + (f['Email']||'') + '\',\'' + (f['Name']||'') + '\',\'' + (f['Version']||'B') + '\',this)">' +
+        '<div>' +
+        '<div class="r-meta">' + (f['Name']||'Unknown') + ' — ' + (f['Email']||'no email') + ' — ' + (f['Registered At']||'').substring(0,10) + '</div>' +
+        '<div class="r-field" style="font-size:0.8rem;color:var(--text-muted);">Version ' + (f['Version']||'?') + '</div>' +
+        '</div></div>';
+    });
+    html += '</div></div>';
+    panel.innerHTML = html;
+  } catch(e) {
+    console.error('Load approvals error:', e);
+  }
+}
+
+async function approveReader(recordId, email, name, version, checkbox) {
+  checkbox.disabled = true;
+  const label = checkbox.closest('.response-item');
+  if (label) label.style.opacity = '0.5';
+
+  try {
+    const res = await fetch(WORKER_URL + '?action=approve', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recordId, email, name, version })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      if (label) {
+        label.style.opacity = '1';
+        label.style.borderColor = 'var(--amber)';
+        label.innerHTML += '<span style="color:var(--amber);font-family:\'Barlow Condensed\',sans-serif;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;margin-left:auto;">✓ Email sent</span>';
+      }
+    } else {
+      console.error('Approve error:', data);
+      checkbox.disabled = false;
+      if (label) label.style.opacity = '1';
+    }
+  } catch(e) {
+    console.error('Approve failed:', e);
+    checkbox.disabled = false;
+    if (label) label.style.opacity = '1';
   }
 }
 
