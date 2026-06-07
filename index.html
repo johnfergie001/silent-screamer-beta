@@ -481,16 +481,13 @@
       localStorage.setItem('silentScreamerName', name);
     } catch(e) {}
 
-    // Save to Airtable (with timeout — never blocks the reader)
+    // Save via Cloudflare Worker (token held server-side)
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 5000);
-      const response = await fetch(`https://jolly-truth-3959.john-fergie999.workers.dev`, {
+      const timeout = setTimeout(() => controller.abort(), 6000);
+      const response = await fetch('https://jolly-truth-3959.john-fergie999.workers.dev', {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           fields: {
             'Name': name,
@@ -502,12 +499,8 @@
         signal: controller.signal
       });
       clearTimeout(timeout);
-      if (!response.ok) {
-        const err = await response.json();
-        console.error('Airtable error:', err);
-      }
     } catch(err) {
-      console.error('Airtable save failed (continuing anyway):', err);
+      console.error('Worker save failed (continuing anyway):', err);
     }
 
     showConfirmation(name, version, email);
@@ -517,7 +510,6 @@
     // Update UI
     const firstName = name.split(' ')[0];
     document.getElementById('confirm-name-heading').textContent = `Welcome, ${firstName}`;
-    document.getElementById('confirm-version-label').textContent = `You have been assigned Version ${version}`;
 
     // Set download links
     document.getElementById('btn-download').href = PDF_LINKS[version];
