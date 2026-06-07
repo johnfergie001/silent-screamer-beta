@@ -948,13 +948,20 @@ async function submitSurvey() {
   btn.disabled = true;
   btn.textContent = 'Submitting…';
 
+  // Strip empty values — Airtable rejects empty strings on number fields
   const fields = collectAnswers();
+  const cleanFields = {};
+  Object.keys(fields).forEach(function(k) {
+    const v = fields[k];
+    if (v !== '' && v !== null && v !== undefined) cleanFields[k] = v;
+  });
 
   // Submit in background — never blocks reader
+  console.log('Submitting fields:', JSON.stringify(cleanFields));
   fetch(WORKER_URL + '?table=tblVa9MCbLvKn7CyE', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ fields: fields })
+    body: JSON.stringify({ fields: cleanFields })
   }).catch(function(err) { console.error('Survey submit error:', err); });
 
   // Show thank you immediately
