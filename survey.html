@@ -905,54 +905,60 @@ function getRadio(name) {
   return sel ? sel.value : '';
 }
 
-// --- Collect all answers ---
+// --- Collect all answers — mapped to existing Airtable field names ---
 function collectAnswers() {
+  const threeWords = [document.getElementById('q9a').value.trim(), document.getElementById('q9b').value.trim(), document.getElementById('q9c').value.trim()].filter(Boolean).join(' / ');
   return {
-    'Name': document.getElementById('q1').value.trim(),
-    'Email': document.getElementById('q2').value.trim(),
-    'Version Read': getRadio('q3'),
-    'How Read': getRadio('q4'),
-    'Finished': getRadio('q5'),
-    'Overall Attention': scaleValues['q6'] || '',
-    'Drawn In Speed': getRadio('q7'),
-    'Commercial Feel': getRadio('q8'),
-    'Commercial Feel Comment': document.getElementById('q8b').value.trim(),
-    'Three Words': [document.getElementById('q9a').value.trim(), document.getElementById('q9b').value.trim(), document.getElementById('q9c').value.trim()].filter(Boolean).join(' / '),
-    'Overall Pacing': getRadio('q10'),
-    'Attention Dip Sections': document.getElementById('q11').value.trim(),
-    'Rushed Sections': document.getElementById('q12').value.trim(),
-    'Tension Build': scaleValues['q13'] || '',
-    'Character Stayed With': document.getElementById('q14').value.trim(),
-    'Morag Investment': scaleValues['q15'] || '',
-    'Family Investment': scaleValues['q16'] || '',
-    'Billy Believable': getRadio('q17'),
-    'Billy Comment': document.getElementById('q17b').value.trim(),
-    'Character Issues': document.getElementById('q18').value.trim(),
-    'Ending Satisfaction': scaleValues['q19'] || '',
-    'Ending Pace': getRadio('q20'),
-    'Ending Earned': scaleValues['q21'] || '',
-    'Closure': getRadio('q22'),
-    'Want More Aftermath': getRadio('q23'),
-    'Ending Emotion': getRadio('q24'),
-    'Ending Emotion Comment': document.getElementById('q24b').value.trim(),
-    'Final Chapter Recommend Effect': getRadio('q25'),
-    'Ending Change': document.getElementById('q26').value.trim(),
-    'Ending Left Feeling': document.getElementById('q27').value.trim(),
-    'Abuse Realism': getRadio('q28'),
-    'Tone Issues': document.getElementById('q29').value.trim(),
-    'Hidden Abuse Clarity': scaleValues['q30'] || '',
-    'Support Note': getRadio('q31'),
-    'Recommend Score': scaleValues['q32'] || '',
-    'Ideal Reader': document.getElementById('q33').value.trim(),
-    'Comparisons': document.getElementById('q34').value.trim(),
-    'One Sentence Summary': document.getElementById('q35').value.trim(),
-    'Strongest Thing': document.getElementById('q36').value.trim(),
-    'Biggest Weakness': document.getElementById('q37').value.trim(),
-    'Interest Next Book': getRadio('q38'),
-    'Beta Reader Next Book': getRadio('q39'),
-    'Permission To Quote': getRadio('q40'),
-    'Anything Else': document.getElementById('q41').value.trim(),
-    'Submitted At': new Date().toISOString()
+    'Reader Name': document.getElementById('q1').value.trim(),
+    'Reader Email': document.getElementById('q2').value.trim(),
+    'Q33 Anything Else': 'Version read: ' + getRadio('q3'),
+    'Q2 Engagement 1Best5Worst': scaleValues['q6'] || '',
+    'Q3a Opening': getRadio('q7'),
+    'Q4 Pace Slowed': getRadio('q10'),
+    'Q5 Investment Point': threeWords,
+    'Q7a Morag Word 1': document.getElementById('q9a').value.trim(),
+    'Q7b Morag Word 2': document.getElementById('q9b').value.trim(),
+    'Q7c Morag Word 3': document.getElementById('q9c').value.trim(),
+    'Q8 Understood Why Stayed 1Best': scaleValues['q15'] || '',
+    'Q8 Details': document.getElementById('q14').value.trim(),
+    'Q9 Other Character': document.getElementById('q18').value.trim(),
+    'Q10 Character Unclear': getRadio('q17'),
+    'Q10 Details': document.getElementById('q17b').value.trim(),
+    'Q11 Pace Overall 1Best': scaleValues['q13'] || '',
+    'Q12 Chapters Too Slow': getRadio('q10'),
+    'Q12 Details': document.getElementById('q11').value.trim(),
+    'Q13 Surprises': document.getElementById('q12').value.trim(),
+    'Q16 Period Authenticity 1Best': scaleValues['q30'] || '',
+    'Q17 Violence Treatment': getRadio('q28'),
+    'Q18 Suggest vs Show': getRadio('q8'),
+    'Q18 Details': document.getElementById('q8b').value.trim(),
+    'Q19 Most Affecting Moment': document.getElementById('q27').value.trim(),
+    'Q20 End Feeling': getRadio('q24'),
+    'Q20 Details': document.getElementById('q24b').value.trim(),
+    'Q21 Ending Right': getRadio('q22'),
+    'Q21 Details': document.getElementById('q26').value.trim(),
+    'Q22 Ending Earned 1Best': scaleValues['q21'] || '',
+    'Q22 Details': document.getElementById('q27').value.trim(),
+    'Q23 Deeper Understanding': getRadio('q23'),
+    'Q23 Details': document.getElementById('q24b').value.trim(),
+    'Q24 Personal Experience': getRadio('q28'),
+    'Q24 Details': document.getElementById('q29').value.trim(),
+    'Q25 Support Resources': getRadio('q31'),
+    'Q26 Graphic Book Interest': getRadio('q38'),
+    'Q26 Details': document.getElementById('q41').value.trim(),
+    'Q27 Vigilante Morag Interest': getRadio('q39'),
+    'Q28 Describe to Friend': document.getElementById('q35').value.trim(),
+    'Q29 Similar Books Films': document.getElementById('q34').value.trim(),
+    'Q30 Ideal Reader': document.getElementById('q33').value.trim(),
+    'Q31 Recommend 1Best': scaleValues['q32'] || '',
+    'Q32 Questions for Author': document.getElementById('q41').value.trim(),
+    'Q33 Anything Else': document.getElementById('q37').value.trim(),
+    'Q34 Next Book Beta Reader': getRadio('q39'),
+    'Q35 Marketing Permission': getRadio('q40'),
+    'Submitted At': new Date().toISOString(),
+    'Q6 Did You Cry': getRadio('q24'),
+    'Q6b Emotional Response': getRadio('q24'),
+    'Q6b Emotional Details': document.getElementById('q24b').value.trim(),
   };
 }
 
@@ -965,25 +971,21 @@ async function submitSurvey() {
   const fields = collectAnswers();
 
   try {
-    const response = await fetch(WORKER_URL, {
+    const response = await fetch(WORKER_URL + '?table=tblVa9MCbLvKn7CyE', {
       method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + AIRTABLE_TOKEN,
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ fields: fields })
     });
 
     if (!response.ok) {
       const err = await response.json();
-      console.error('Airtable error:', err);
-      // Still show thank you — don't strand the reader
+      console.error('Survey submit error:', err);
     }
   } catch(err) {
     console.error('Submit error:', err);
   }
 
-  // Show thank you
+  // Show thank you regardless
   document.getElementById('survey-wrap').style.display = 'none';
   document.getElementById('thankyou').style.display = 'block';
   document.getElementById('progress-fill').style.width = '100%';
