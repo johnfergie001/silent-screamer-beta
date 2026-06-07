@@ -394,6 +394,18 @@
     </div>
   </div>
 
+  <!-- Pending panel (not yet approved) -->
+  <div id="pending" style="display:none;">
+    <div class="form-card" style="text-align:center;">
+      <div class="confirm-badge">Registration received</div>
+      <h1 class="confirm-heading" id="pending-name-heading">Thank you</h1>
+      <p class="confirm-text" style="margin-top:16px;">
+        Your registration has been received. Once I've confirmed access I'll be in touch directly with your copy and survey link.
+      </p>
+      <p class="confirm-text" style="font-style:italic;">— John Fergie</p>
+    </div>
+  </div>
+
   <!-- Confirmation panel (shown after registration) -->
   <div id="confirmation">
     <div class="form-card">
@@ -469,7 +481,7 @@
 
     const btn = document.getElementById('btn-register');
     btn.disabled = true;
-    btn.textContent = 'Registering…';
+    btn.textContent = 'Checking…';
 
     const version = assignVersion();
     const timestamp = new Date().toISOString();
@@ -481,10 +493,8 @@
       localStorage.setItem('silentScreamerName', name);
     } catch(e) {}
 
-    showConfirmation(name, version, email);
-
-    // Save via Cloudflare Worker in background — does not block reader
-    fetch('https://jolly-truth-3959.john-fergie999.workers.dev?table=tblhryU1PwpPFtv3w', {
+    // Save registration to Airtable in background
+    fetch(WORKER_URL + '?table=tblhryU1PwpPFtv3w', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -495,7 +505,33 @@
           'Registered At': timestamp
         }
       })
-    }).catch(function(err) { console.error('Background save failed:', err); });
+    }).catch(function(err) { console.error('Registration save failed:', err); });
+
+    // Check if email is on approved list
+    try {
+      const res = await fetch(WORKER_URL + '?action=check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+      });
+      const data = await res.json();
+      if (data.approved) {
+        showConfirmation(name, version, email);
+      } else {
+        showPending(name);
+      }
+    } catch(err) {
+      console.error('Approval check failed:', err);
+      showPending(name);
+    }
+  }
+
+  function showPending(name) {
+    const firstName = name.split(' ')[0];
+    document.getElementById('pending-name-heading').textContent = `Thank you, ${firstName}`;
+    document.getElementById('registration').style.display = 'none';
+    document.getElementById('pending').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function showConfirmation(name, version, email) {
