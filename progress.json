@@ -1,0 +1,65 @@
+{
+  "project": "SilentScreamer",
+  "phase": "AWAITING BETA FEEDBACK",
+  "last_updated": "2026-06-16",
+  "goals": [
+    {
+      "id": "G1",
+      "title": "Write and develop the manuscript",
+      "status": "DONE",
+      "activities": [
+        { "id": "G1-A1", "title": "First draft complete", "status": "DONE" },
+        { "id": "G1-A2", "title": "Multiple revision cycles (V1 through V6)", "status": "DONE" },
+        { "id": "G1-A3", "title": "MARA editorial agent pipeline (8 agents)", "status": "DONE" },
+        { "id": "G1-A4", "title": "Structural additions — 5 new chapters inserted, renumbered", "status": "DONE" },
+        { "id": "G1-A5", "title": "Pacing fixes — V6.4", "status": "DONE" },
+        { "id": "G1-A6", "title": "Two ending variants produced — A and B, then C", "status": "DONE" }
+      ]
+    },
+    {
+      "id": "G2",
+      "title": "Beta reader programme",
+      "status": "IN_PROGRESS",
+      "activities": [
+        { "id": "G2-A1", "title": "Beta versions prepared (B and C — A dropped)", "status": "DONE" },
+        { "id": "G2-A2", "title": "Beta readers recruited and manuscripts sent", "status": "DONE" },
+        { "id": "G2-A3", "title": "Collect and review beta feedback", "status": "IN_PROGRESS" },
+        { "id": "G2-A4", "title": "Make ending decision — B or C", "status": "NOT_STARTED" },
+        { "id": "G2-A5", "title": "Apply any final changes from beta feedback", "status": "NOT_STARTED" }
+      ]
+    },
+    {
+      "id": "G3",
+      "title": "KDP self-publish",
+      "status": "NOT_STARTED",
+      "activities": [
+        { "id": "G3-A1", "title": "KDP formatting complete (Demy format, covers, ePub)", "status": "DONE" },
+        { "id": "G3-A2", "title": "Copyright files generated (PDF + ePub)", "status": "DONE" },
+        { "id": "G3-A3", "title": "Final proofread pass on chosen ending version", "status": "NOT_STARTED" },
+        { "id": "G3-A4", "title": "Upload to KDP and publish", "status": "NOT_STARTED" }
+      ]
+    },
+    {
+      "id": "G4",
+      "title": "Agent submission (conditional)",
+      "status": "ON_HOLD",
+      "activities": [
+        { "id": "G4-A1", "title": "Assess beta feedback — confirm quality confidence", "status": "NOT_STARTED" },
+        { "id": "G4-A2", "title": "Decision: pursue agents or KDP only", "status": "NOT_STARTED" },
+        { "id": "G4-A3", "title": "Query letters to Janklow & Nesbit UK, Curtis Brown, RCW, Aitken Alexander, The North", "status": "ON_HOLD" }
+      ]
+    }
+  ],
+  "agreed_next_steps": [
+    "Chase beta readers — collect feedback as it arrives",
+    "Make ending decision (B vs C) once sufficient feedback received",
+    "Decide on agent submission route after beta confidence established"
+  ],
+  "key_files": {
+    "manuscript_root": "G:\\My Drive\\05_WRITING\\Novel-Manuscript\\CURRENT VERION\\",
+    "mara_brief": "G:\\My Drive\\05_WRITING\\CODE\\SilentScreamer\\MARA.md",
+    "release_notes": "G:\\My Drive\\05_WRITING\\Novel-Manuscript\\CURRENT VERION\\SilentScreamer_ReleaseNotes_2026-06-01.md",
+    "project_management": "G:\\My Drive\\09_AI-TOOLS\\Claude-CoWork\\CLAUDE CoWork\\Projects\\SilentScreamer\\"
+  },
+  "notes": "KDP target date 27 Jun 2026 is soft (mum's birthday) — may slip. That is fine."
+}

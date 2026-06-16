@@ -1,0 +1,23 @@
+# Secrets & credentials
+.env
+*.key
+credentials*
+secrets*
+config.local.*
+
+# Google Drive native files (virtual shortcuts — unreadable by git)
+*.gdoc
+*.gsheet
+*.gslide
+*.gform
+*.gdraw
+*.gmap
+
+# Generated / data
+data/
+output/
+__pycache__/
+*.pyc
+node_modules/
+.DS_Store
+Thumbs.db
