@@ -805,6 +805,7 @@
             <option value="Version C">Version C only</option>
           </select>
         </div>
+        <div id="dash-projects" style="margin-bottom:28px;"></div>
         <div id="approvals-panel" style="margin-bottom:28px;"></div>
         <div id="dash-stats"></div>
         <div id="dash-responses"></div>
@@ -825,6 +826,10 @@
 
 const WORKER_URL = 'https://jolly-truth-3959.john-fergie999.workers.dev';
 const DASH_PASSCODE = 'mara2026';
+const PROJECTS_STACK = [
+  { project: 'SilentScreamer', title: 'Silent Screamer: The Watching Window', phase: 'AWAITING BETA FEEDBACK', last_updated: '2026-06-16' },
+  { project: 'KneePillows', title: 'Knee Pillows', phase: 'DEVELOPMENT', last_updated: '2026-06-19' }
+];
 const TOTAL_SECTIONS = 8;
 
 let scaleValues = {};
@@ -990,11 +995,34 @@ function dashLogin() {
   if (code === DASH_PASSCODE) {
     document.getElementById('dash-login-form').style.display = 'none';
     document.getElementById('dash-content').style.display = 'block';
+    renderProjectsStack();
     loadApprovals();
     loadDashboard();
   } else {
     err.style.display = 'block';
   }
+}
+
+function renderProjectsStack() {
+  const phaseColour = {
+    'DONE': 'var(--text-muted)',
+    'AWAITING BETA FEEDBACK': 'var(--amber)',
+    'IN_PROGRESS': 'var(--amber)',
+    'DEVELOPMENT': '#7ec8a0',
+    'ON_HOLD': 'var(--text-muted)',
+    'NOT_STARTED': 'var(--text-muted)'
+  };
+  let html = '<div class="dash-section"><h3>Projects Stack</h3><div class="stat-grid">';
+  PROJECTS_STACK.forEach(function(p) {
+    const colour = phaseColour[p.phase] || 'var(--text-muted)';
+    html += '<div class="stat-card" style="text-align:left;">' +
+      '<div style="font-family:\'Crimson Pro\',serif;font-size:1rem;color:var(--text);margin-bottom:6px;">' + p.title + '</div>' +
+      '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:' + colour + ';margin-bottom:4px;">' + p.phase + '</div>' +
+      '<div style="font-size:0.75rem;color:var(--text-muted);">Updated ' + p.last_updated + '</div>' +
+      '</div>';
+  });
+  html += '</div></div>';
+  document.getElementById('dash-projects').innerHTML = html;
 }
 
 async function loadApprovals() {
