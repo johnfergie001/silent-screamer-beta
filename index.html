@@ -449,6 +449,7 @@
   
   
   const WORKER_URL = 'https://jolly-truth-3959.john-fergie999.workers.dev';
+  const SURVEY_SECRET = 'G2b-w-Zxwpvk0zZ98DKp3U1p-Ow0HL8KgUrNGvwPYLo';
 
   const PDF_LINKS = {
     B: 'https://drive.google.com/uc?export=download&id=1GmxvRRAeKEUFl-k55MSmr4h9_A98jmjh',
@@ -496,7 +497,7 @@
     // Save registration to Airtable in background
     fetch(WORKER_URL + '?table=tblhryU1PwpPFtv3w', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-Survey-Secret': SURVEY_SECRET },
       body: JSON.stringify({
         fields: {
           'Name': name,
@@ -511,7 +512,7 @@
     try {
       const res = await fetch(WORKER_URL + '?action=check', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Survey-Secret': SURVEY_SECRET },
         body: JSON.stringify({ email: email })
       });
       const data = await res.json();
