@@ -297,16 +297,6 @@
 
       <div class="q">
         <span class="q-num">Q3</span>
-        <label class="q-label">Which version did you read?</label>
-        <div class="radio-group" id="q3">
-          <label class="radio-opt"><input type="radio" name="q3" value="Version B"> Version B</label>
-          <label class="radio-opt"><input type="radio" name="q3" value="Version C"> Version C</label>
-          <label class="radio-opt"><input type="radio" name="q3" value="Not sure"> I'm not sure</label>
-        </div>
-      </div>
-
-      <div class="q">
-        <span class="q-num">Q4</span>
         <label class="q-label">How did you read it?</label>
         <div class="radio-group" id="q4">
           <label class="radio-opt"><input type="radio" name="q4" value="PDF phone/tablet"> PDF on phone or tablet</label>
@@ -317,7 +307,7 @@
       </div>
 
       <div class="q">
-        <span class="q-num">Q5</span>
+        <span class="q-num">Q4</span>
         <label class="q-label">Did you finish the book?</label>
         <div class="radio-group" id="q5">
           <label class="radio-opt"><input type="radio" name="q5" value="Yes"> Yes</label>
@@ -842,15 +832,9 @@ window.addEventListener('DOMContentLoaded', function() {
     if (el) el.value = decodeURIComponent(email);
   }
 
-  if (version && (version === 'B' || version === 'C')) {
-    const radios = document.querySelectorAll('input[name="q3"]');
-    radios.forEach(function(r) {
-      if (r.value === 'Version ' + version) {
-        r.checked = true;
-        r.closest('.radio-opt').classList.add('selected');
-      }
-    });
-  }
+  // Version is no longer asked as a question — it's known from registration
+  // and passed via the link (or localStorage). collectAnswers() reads it
+  // directly from the same params/localStorage at submit time.
 
   // Style radio opts on change
   document.querySelectorAll('.radio-group').forEach(function(group) {
@@ -917,7 +901,10 @@ function collectAnswers() {
   return {
     'Reader Name': document.getElementById('q1').value.trim(),
     'Reader Email': document.getElementById('q2').value.trim(),
-    'Version Read': getRadio('q3'),
+    'Version Read': (function() {
+      const v = new URLSearchParams(window.location.search).get('version') || localStorage.getItem('silentScreamerVersion') || '';
+      return v ? 'Version ' + v : '';
+    })(),
     'Q7a Morag Word 1': document.getElementById('q9a').value.trim(),
     'Q7b Morag Word 2': document.getElementById('q9b').value.trim(),
     'Q7c Morag Word 3': document.getElementById('q9c').value.trim(),
