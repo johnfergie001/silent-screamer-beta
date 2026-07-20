@@ -824,6 +824,7 @@
 
 
 const WORKER_URL = 'https://jolly-truth-3959.john-fergie999.workers.dev';
+const SURVEY_SECRET = 'G2b-w-Zxwpvk0zZ98DKp3U1p-Ow0HL8KgUrNGvwPYLo';
 const DASH_PASSCODE = 'mara2026';
 const TOTAL_SECTIONS = 8;
 
@@ -974,7 +975,7 @@ async function submitSurvey() {
   console.log('Submitting fields:', JSON.stringify(cleanFields));
   fetch(WORKER_URL + '?table=tblVa9MCbLvKn7CyE', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'X-Survey-Secret': SURVEY_SECRET },
     body: JSON.stringify({ fields: cleanFields })
   }).catch(function(err) { console.error('Survey submit error:', err); });
 
@@ -1012,7 +1013,7 @@ function dashLogin() {
 
 async function loadApprovals() {
   try {
-    const res = await fetch(WORKER_URL + '?action=pending');
+    const res = await fetch(WORKER_URL + '?action=pending', { headers: { 'X-Survey-Secret': SURVEY_SECRET } });
     const data = await res.json();
     const records = data.records || [];
     const panel = document.getElementById('approvals-panel');
@@ -1047,7 +1048,7 @@ async function approveReader(recordId, email, name, version, checkbox) {
   try {
     const res = await fetch(WORKER_URL + '?action=approve', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-Survey-Secret': SURVEY_SECRET },
       body: JSON.stringify({ recordId, email, name, version })
     });
     const data = await res.json();
@@ -1080,7 +1081,8 @@ async function loadDashboard() {
     do {
       const fetchUrl = offset ? url + '&offset=' + offset : url;
       const res = await fetch(fetchUrl, {
-        method: 'GET'
+        method: 'GET',
+        headers: { 'X-Survey-Secret': SURVEY_SECRET }
       });
       const data = await res.json();
       if (data.records) records = records.concat(data.records);
