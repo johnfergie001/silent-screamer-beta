@@ -907,11 +907,16 @@ function getRadio(name) {
 }
 
 // --- Collect all answers — mapped to existing Airtable field names ---
+// Fixed 2026-07-20: several "Ending" section answers (q19,q20,q22,q23,q24,q25,q26,q27,q28,q31,q38,q39,q40)
+// were previously never sent, or clobbered each other by sharing a field (q41 and q27 each had two homes).
+// This version routes every field into a column that already exists in Airtable and was sitting unused —
+// no Airtable schema change required. q4,q5,q7,q8(radio),q10(radio),q13,q16,q17(radio),q36 still have no
+// matching Airtable column and are not sent; see handoff notes for the list of fields still needing one.
 function collectAnswers() {
   return {
     'Reader Name': document.getElementById('q1').value.trim(),
     'Reader Email': document.getElementById('q2').value.trim(),
-    'Q5 Investment Point': 'Version read: ' + getRadio('q3'),
+    'Version Read': getRadio('q3'),
     'Q7a Morag Word 1': document.getElementById('q9a').value.trim(),
     'Q7b Morag Word 2': document.getElementById('q9b').value.trim(),
     'Q7c Morag Word 3': document.getElementById('q9c').value.trim(),
@@ -919,24 +924,32 @@ function collectAnswers() {
     'Q9 Other Character': document.getElementById('q18').value.trim(),
     'Q10 Details': document.getElementById('q11').value.trim(),
     'Q12 Details': document.getElementById('q12').value.trim(),
-    'Q13 Surprises': document.getElementById('q13') ? '' : '',
     'Q14 Details': document.getElementById('q14').value.trim(),
     'Q18 Details': document.getElementById('q17b').value.trim(),
-    'Q19 Most Affecting Moment': document.getElementById('q27').value.trim(),
     'Q20 Details': document.getElementById('q24b').value.trim(),
-    'Q21 Details': document.getElementById('q26').value.trim(),
-    'Q22 Details': document.getElementById('q27').value.trim(),
     'Q24 Details': document.getElementById('q29').value.trim(),
-    'Q26 Details': document.getElementById('q41').value.trim(),
     'Q28 Describe to Friend': document.getElementById('q35').value.trim(),
     'Q29 Similar Books Films': document.getElementById('q34').value.trim(),
     'Q30 Ideal Reader': document.getElementById('q33').value.trim(),
     'Q32 Questions for Author': document.getElementById('q41').value.trim(),
     'Q33 Anything Else': document.getElementById('q37').value.trim(),
+    'Ending Pace': getRadio('q20'),
+    'Closure': getRadio('q22'),
+    'Want More Aftermath': getRadio('q23'),
+    'Ending Emotion': getRadio('q24'),
+    'Recommend Effect': getRadio('q25'),
+    'Ending Change': document.getElementById('q26').value.trim(),
+    'Ending Left Feeling': document.getElementById('q27').value.trim(),
+    'Q17 Violence Treatment': getRadio('q28'),
+    'Q25 Support Resources': getRadio('q31'),
+    'Q26 Graphic Book Interest': getRadio('q38'),
+    'Q34 Next Book Beta Reader': getRadio('q39'),
+    'Q35 Marketing Permission': getRadio('q40'),
     'Q2 Engagement 1Best5Worst': scaleValues['q6'] ? Number(scaleValues['q6']) : null,
     'Q8 Understood Why Stayed 1Best': scaleValues['q15'] ? Number(scaleValues['q15']) : null,
     'Q11 Pace Overall 1Best': scaleValues['q13'] ? Number(scaleValues['q13']) : null,
     'Q16 Period Authenticity 1Best': scaleValues['q30'] ? Number(scaleValues['q30']) : null,
+    'Ending Satisfaction': scaleValues['q19'] ? Number(scaleValues['q19']) : null,
     'Q22 Ending Earned 1Best': scaleValues['q21'] ? Number(scaleValues['q21']) : null,
     'Q31 Recommend 1Best': scaleValues['q32'] ? Number(scaleValues['q32']) : null,
     'Submitted At': new Date().toISOString()
