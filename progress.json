@@ -2,6 +2,9 @@
   "project": "SilentScreamer",
   "phase": "AWAITING BETA FEEDBACK",
   "priority": "HIGH",
+  "wip_status": "ACTIVE",
+  "value_type": "Enabling",
+  "life_area": "Writing",
   "last_updated": "2026-06-16",
   "goals": [
     {
