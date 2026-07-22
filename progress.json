@@ -134,5 +134,14 @@
     "release_notes": "G:\\My Drive\\05_WRITING\\Novel-Manuscript\\CURRENT VERION\\SilentScreamer_ReleaseNotes_2026-06-01.md",
     "project_management": "G:\\My Drive\\09_AI-TOOLS\\Claude-CoWork\\CLAUDE CoWork\\Projects\\SilentScreamer\\"
   },
-  "notes": "KDP target date 27 Jun 2026 is soft (mum's birthday) — may slip. That is fine."
+  "notes": "KDP target date 27 Jun 2026 is soft (mum's birthday) — may slip. That is fine.",
+  "gantt": {
+    "milestones": [
+      {
+        "id": "M1784752502",
+        "name": "TEST - write-back verification",
+        "date": "2026-12-31"
+      }
+    ]
+  }
 }
