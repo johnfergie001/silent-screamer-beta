@@ -5,7 +5,7 @@
   "wip_status": "ACTIVE",
   "value_type": "Enabling",
   "life_area": "Writing",
-  "last_updated": "2026-06-16",
+  "last_updated": "2026-07-22",
   "goals": [
     {
       "id": "G1",
@@ -62,7 +62,8 @@
         {
           "id": "G2-A3",
           "title": "Collect and review beta feedback",
-          "status": "IN_PROGRESS"
+          "status": "IN_PROGRESS",
+          "notes": "Chaser emails sent to all beta readers 2026-07-29. Awaiting responses."
         },
         {
           "id": "G2-A4",
@@ -137,8 +138,24 @@
     "release_notes": "G:\\My Drive\\05_WRITING\\Novel-Manuscript\\CURRENT VERION\\SilentScreamer_ReleaseNotes_2026-06-01.md",
     "project_management": "G:\\My Drive\\09_AI-TOOLS\\Claude-CoWork\\CLAUDE CoWork\\Projects\\SilentScreamer\\"
   },
-  "notes": "KDP target date 27 Jun 2026 is soft (mum's birthday) — may slip. That is fine.",
+  "notes": "KDP target date 27 Jun 2026 slipped — expected, was always soft. New target: TBD after beta feedback received and ending decision made.",
   "gantt": {
+    "goals": [
+      {
+        "id": "G1",
+        "name": "Write and develop the manuscript",
+        "start": "2026-06-19",
+        "end": "2026-07-19",
+        "status": "DONE"
+      },
+      {
+        "id": "G2",
+        "name": "Beta reader programme",
+        "start": "2026-06-01",
+        "end": "2026-07-25",
+        "status": "IN_PROGRESS"
+      }
+    ],
     "milestones": []
   }
 }
