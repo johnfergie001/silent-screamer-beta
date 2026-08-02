@@ -940,6 +940,15 @@ function collectAnswers() {
     'Ending Satisfaction': scaleValues['q19'] ? Number(scaleValues['q19']) : null,
     'Q22 Ending Earned 1Best': scaleValues['q21'] ? Number(scaleValues['q21']) : null,
     'Q31 Recommend 1Best': scaleValues['q32'] ? Number(scaleValues['q32']) : null,
+    // Added 2026-07-20: these 8 previously had no destination field at all — now sent.
+    'Read Format': getRadio('q4'),
+    'Finished': getRadio('q5'),
+    'Drawn In Speed': getRadio('q7'),
+    'Commercial Fit': getRadio('q8'),
+    'Pacing Overall': getRadio('q10'),
+    'Family Investment': scaleValues['q16'] ? Number(scaleValues['q16']) : null,
+    'Billy Believable': getRadio('q17'),
+    'Strongest Thing': document.getElementById('q36').value.trim(),
     'Submitted At': new Date().toISOString()
   };
 }
