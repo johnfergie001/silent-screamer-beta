@@ -1,0 +1,22 @@
+{
+  "project": "SilentScreamer",
+  "schema_version": 1,
+  "updated_at": "2026-08-09",
+  "purpose": "Prioritised upstream demand only. BACKLOG PRIORITY is not delivery ORDER and does not create AI Work automatically.",
+  "items": [
+    {
+      "id": "SS-REQ-001",
+      "title": "Decide and execute literary-agent submission route",
+      "status": "WAITING_TRIGGER",
+      "summary": "After sufficient beta feedback, decide whether to pursue agents or KDP only; if agents are chosen, prepare and send queries to the named target agencies.",
+      "source_ids": ["SS-IDEA-001"],
+      "source_note": "progress.json — G4 and agreed_next_steps",
+      "backlog_priority": null,
+      "customer_or_beneficiary": "Silent Screamer publication strategy",
+      "workstream": "Publishing Strategy",
+      "depends_on": ["Sufficient beta feedback", "Ending B/C decision"],
+      "acceptance_outcome": "A beta-evidence-based route decision is recorded and, if traditional representation is chosen, the agent submission package is sent to the identified agencies.",
+      "delivery_issue": null
+    }
+  ]
+}
