@@ -1,0 +1,20 @@
+{
+  "project": "SilentScreamer",
+  "schema_version": 1,
+  "updated_at": "2026-08-09",
+  "purpose": "Upstream idea capture only. These records do not enter AI Work or Workstreams until deliberately promoted and admitted to delivery.",
+  "items": [
+    {
+      "id": "SS-IDEA-001",
+      "title": "Traditional agent submission route after beta confidence",
+      "status": "PROMOTED",
+      "summary": "Keep a conditional literary-agent submission route available alongside KDP once beta feedback establishes sufficient confidence in the final manuscript.",
+      "created_at": "2026-08-09",
+      "source": "progress.json — G4 Agent submission (conditional)",
+      "problem_or_opportunity": "The manuscript may warrant traditional representation rather than proceeding directly to KDP only, but that decision should wait for beta evidence.",
+      "customer_or_beneficiary": "Silent Screamer publication strategy",
+      "notes": "progress.json explicitly places this route ON_HOLD pending beta feedback and a decision on agents versus KDP only.",
+      "promoted_to": ["SS-REQ-001"]
+    }
+  ]
+}
